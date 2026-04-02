@@ -1,19 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription - Blog Bootstrap
+{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+	<body class="forms-body">
+		<div class="shadow">
 
-    {{ form_errors(registrationForm) }}
+			<div class="d-flex flex-column form-div" id="signup-div">
+				{{ form_start(registrationForm, { 'attr': {'class': 'w-50 d-flex flex-column justify-content-center rounded-3'} }) }}
+				<h1 class="mb-5 text-center text-light">Inscription</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+				{{ form_row(registrationForm.username) }}
+				{{ form_row(registrationForm.email) }}
+				{{ form_row(registrationForm.plainPassword) }}
+				{{ form_row(registrationForm.agreeTerms) }}
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+				{{ form_errors(registrationForm, { 'attr': {'class': 'error-msg'} }) }}
+
+				<button type="submit" class="btn align-self-start mt-5 w-50 m-auto text-light sign-in">S'inscrire</button>
+				{{ form_end(registrationForm) }}
+
+				<p class="text-center mt-4 text-light">Vous avez déjà un compte ?
+					<a href="{{ path('app_login') }}">Connectez-vous.</a>
+				</p>
+			</div>
+		</div>
+	</body>
 {% endblock %}
