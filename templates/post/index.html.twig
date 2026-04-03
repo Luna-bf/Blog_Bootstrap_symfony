@@ -25,7 +25,6 @@
 				{% if is_granted(("ROLE_USER")) %}
 					<a class="text-secondary text-decoration-none" href="{{ path('user_index') }}">Bonjour,
 						{{ app.user.username }}</a>
-					<a class="btn btn-sm btn-outline-secondary ms-3" href="{{ path('app_logout') }}">Déconnexion</a>
 				{% else %}
 					<a class="btn btn-sm btn-outline-secondary" href="{{ path('app_register') }}">S'inscrire</a>
 					<a class="btn btn-sm btn-outline-secondary ms-3" href="{{ path('app_login') }}">Se connecter</a>
