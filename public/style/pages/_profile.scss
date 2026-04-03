@@ -1,0 +1,99 @@
+.banner {
+    min-height: 40vh;
+    background-image: url("../imgs/profile/placeholder-picture.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.container>#profile-div {
+    margin-top: 9px;
+}
+
+#profile-nav>figure {
+    width: 7%;
+    position: absolute;
+    top: 350px;
+    margin-left: 25px;
+}
+
+#profile-nav figure>img {
+    border: 6px solid #fff;
+}
+
+.username-profile {
+    margin-left: 145px;
+}
+
+#logout {
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    padding: 5px 15px 5px 15px;
+    border-radius: 5px;
+    font-size: 15px;
+    transition: all 0.2s;
+}
+
+#logout:hover {
+    background-color: #dc3545;
+    color: #fff;
+    transition: all 0.2s;
+}
+
+#posts-btns {
+    margin-top: 2.5em;
+}
+
+#posts-btns>a {
+    font-size: 15px;
+    text-decoration: none;
+    padding: 5px 15px 5px 15px;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+
+.delete-posts {
+    border: 1px solid #f7bc0c;
+    color: #f7bc0c;
+}
+
+.delete-posts:hover {
+    background-color: #f7bc0c;
+    color: #fff;
+    transition: all 0.2s;
+}
+
+.fa-plus, .fa-minus, .fa-arrow-right-from-bracket {
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+#posts {
+    margin-top: 3.5em;
+}
+
+// .subscribe-btn:before {
+//     font-family: "Font Awesome 5 Free";
+//     content: "\f0f3";
+//     padding-right: 8px;
+//     font-weight: 900;
+//     color: #6C757D;
+// }
+
+// .subscribe-btn:before:hover {
+//     font-family: "Font Awesome 5 Free";
+//     content: "\f0f3";
+//     padding-right: 8px;
+//     font-weight: 900;
+//     color: #fff;
+// }
+
+#categories {
+    border: 1px solid #5d5d5d;
+    color: #5d5d5d;
+}
+
+footer {
+    margin-top: 4em;
+    padding: 15px;
+}
