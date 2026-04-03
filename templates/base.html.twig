@@ -9,6 +9,7 @@
 		{% block stylesheets %}
 			<link rel="stylesheet" href="/style/main.css">
 		{% endblock %}
+		<link rel="icon" type="image/x-icon" href="#">
 	</head>
 	<body>
 		{% block header %}
@@ -19,6 +20,8 @@
 			{% block main %}{% endblock %}
 		{% endblock %}
 
-		{% include "inc/_footer.html.twig" %}
+		{% block footer %}
+			{% include "inc/_footer.html.twig" %}
+		{% endblock %}
 	</body>
 </html>
