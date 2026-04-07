@@ -26,9 +26,6 @@ class Post
     #[ORM\Column(length: 255)]
     private ?string $image_name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $author = null;
-
     #[ORM\ManyToOne(inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
@@ -86,18 +83,6 @@ class Post
     public function setImageName(string $image_name): static
     {
         $this->image_name = $image_name;
-
-        return $this;
-    }
-
-    public function getAuthor(): ?string
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(string $author): static
-    {
-        $this->author = $author;
 
         return $this;
     }
