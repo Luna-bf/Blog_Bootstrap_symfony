@@ -4,16 +4,16 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Post;
-use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class PostType extends AbstractType
 {
@@ -78,7 +78,7 @@ class PostType extends AbstractType
                     'class' => 'form-control',
                 ]
             ])
-            ->add('image_name', null, [
+            ->add('image_name', FileType::class, [
                 'label' => 'Image',
 
                 // Attributs de la div générée par $builder
@@ -94,53 +94,20 @@ class PostType extends AbstractType
                 // Attributs de l'input
                 'attr' => [
                     'class' => 'form-control',
-                ]
-            ])
-            ->add('author', HiddenType::class, [
-                // 'class' => User::class,
-                // 'choice_label' => 'username',
-
-                'label' => 'Auteur(rice) de la publication',
-
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4'
                 ],
-
-                // Attributs du label
-                'label_attr' => [
-                    'class' => 'form-label text-light'
+                
+                'constraints' => [
+                    new Assert\File(
+                        extensions: ['jpeg', 'png', 'jpg'],
+                        extensionsMessage: 'Veuillez exporter une image.',
+                    )
                 ],
-
-                // Attributs de l'input
-                'attr' => [
-                    'class' => 'form-control',
-                ]
             ])
-            ->add('category', ChoiceType::class, [
-                // 'class' => Category::class,
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
                 'choice_label' => 'name',
 
                 'label' => 'Catégorie',
-
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4'
-                ],
-
-                // Attributs du label
-                'label_attr' => [
-                    'class' => 'form-label text-light'
-                ],
-
-                // Attributs de l'input
-                'attr' => [
-                    'class' => 'form-control',
-                ]
-            ])
-            ->add('my_user', HiddenType::class, [
-                // 'class' => User::class,
-                // 'choice_label' => 'id',
 
                 // Attributs de la div générée par $builder
                 'row_attr' => [
