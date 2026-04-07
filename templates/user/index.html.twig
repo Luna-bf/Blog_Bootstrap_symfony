@@ -17,52 +17,59 @@
 				{% else %}
 					<li class="fs-5 align-items-center username-profile">{{ app.user.username }}</li>
 				{% endif %}
-			</li>
-		</ul>
-		<div class="d-flex flex-row align-items-center list-unstyled profile-btns">
-			<a class="btn btn-sm btn-outline-secondary" href="#">
-				<i class="fa-solid fa-gear"></i>Paramètres du profil</a>
-			<a href="{{ path('app_logout') }}" class="ms-3 btn btn-outline-danger text-decoration-none" id="logout">
-				<i class="fa-solid fa-arrow-right-from-bracket"></i>Se déconnecter</a>
-			{# <li class="btn btn-sm btn-outline-secondary mt-2 subscribe-btn">S'abonner</li> #}
-		</div>
-	</li>
-</div>
-<div class="d-flex flex-row justify-content-center align-items-center profile-btns" id="posts-btns">
-	<a href="{{ path('post_create') }}" class="me-4 btn btn-outline-success">
-		<i class="fa-solid fa-plus"></i>Créer un nouveau post</a>
-	<a href="#" class="delete-posts profile-btns">
-		<i class="fa-solid fa-minus"></i>Supprimer des posts</a>
-</div>
-<div class="row mb-5" id="posts">
-	<div>
-		<ul class="list-unstyled d-flex flex-row justify-content-between">
-            <li class="fs-2">Vos publications</li>
-		</ul>
-	</div>
-</div>
-<div class="row mb-2 m-0">
-	<div
-		class="col-md-6 m-0">
-		{# Conteneur enfant de la carte #}
-		<div
-			class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-			{# Contenu de la carte #}
-			<div class="col-6 p-4 d-flex flex-column position-static">
-				<strong class="d-inline-block mb-2 text-success-emphasis">World</strong>
-				<h3 class="mb-0">Post title</h3>
-				<div class="mb-1 text-body-secondary">Nov 11</div>
-				<p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-				<a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
-					Continue reading
-					<svg class="bi" aria-hidden="true">
-						<use xlink:href="#chevron-right"></use>
-					</svg>
-				</a>
-			</div>
-			<div class="col-6 d-lg-flex d-inline-block">
-				<img src="/assets/imgs/posts/world/town.png" alt="World">
+			</ul>
+			<div class="d-flex flex-row align-items-center list-unstyled profile-btns">
+				<a class="btn btn-sm btn-outline-secondary" href="#">
+					<i class="fa-solid fa-gear"></i>Paramètres du profil</a>
+				<a href="{{ path('app_logout') }}" class="ms-3 btn btn-outline-danger text-decoration-none" id="logout">
+					<i class="fa-solid fa-arrow-right-from-bracket"></i>Se déconnecter</a>
+				{# <li class="btn btn-sm btn-outline-secondary mt-2 subscribe-btn">S'abonner</li> #}
 			</div>
 		</div>
-	</div>
-</div></main>{# Fin MAIN #}{% endblock %}
+		<div class="d-flex flex-row justify-content-center align-items-center profile-btns" id="posts-btns">
+			<a href="{{ path('post_create') }}" class="me-4 btn btn-outline-success">
+				<i class="fa-solid fa-plus"></i>Créer un nouveau post</a>
+			<a href="#" class="delete-posts profile-btns">
+				<i class="fa-solid fa-minus"></i>Supprimer des posts</a>
+		</div>
+		<div class="row mb-5" id="posts">
+			<div>
+				<ul class="list-unstyled d-flex flex-row justify-content-between">
+					<li class="fs-2">Vos publications</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row mb-2 m-0">
+			{# Conteneur parent des cartes #}
+			<div class="row mb-2 m-0">
+			{% for post in posts %}
+				{% if app.user.id == post.myUser.id %}
+					{# Conteneur parent de l'une des cartes #}
+					<div class="col-md-6 m-0" id="{{ post.myUser.id }}">
+						{# Conteneur enfant de la carte #}
+						<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+							{# Contenu de la carte #}
+							<div class="col-6 p-4 d-flex flex-column position-static">
+								<strong class="d-inline-block mb-2 text-success-emphasis">{{ post.category.name }}</strong>
+								<h3 class="mb-0">{{ post.title }}</h3>
+								<div class="mb-1 text-body-secondary">{{ post.createdAt | date("d/m/Y") }}</div>
+								<p class="mb-auto">{{ post.content }}</p>
+								<a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
+									Continue reading
+									<svg class="bi" aria-hidden="true">
+										<use xlink:href="#chevron-right"></use>
+									</svg>
+								</a>
+							</div>
+							<div class="col-6 d-lg-flex d-inline-block">
+								<img src="/assets/imgs/posts/world/town.png" alt="World">
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			{% endfor %}
+			</div>
+		</div>
+	</main>
+{# Fin MAIN #}
+{% endblock %}
