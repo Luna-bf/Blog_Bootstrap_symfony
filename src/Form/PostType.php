@@ -81,6 +81,11 @@ class PostType extends AbstractType
             ->add('image_name', FileType::class, [
                 'label' => 'Image',
 
+                'mapped' => false,
+
+                // Pour ne pas re-publier l'image à chaque fois que l'on modifie un post
+                'required' => false,
+
                 // Attributs de la div générée par $builder
                 'row_attr' => [
                     'class' => 'mb-4'
