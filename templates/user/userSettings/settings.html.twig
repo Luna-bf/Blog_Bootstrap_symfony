@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paramètres du compte - Blog Bootstrap
+{% endblock %}
+
+{% block body %}
+	<body class="settings-form">
+			<div class="d-flex flex-column form-div" id="create-post-div">
+				{{ form_start(editUserForm, { 'attr': {'class': 'w-50 d-flex flex-column justify-content-center rounded-3'} }) }}
+				<h1 class="mb-5 text-center text-dark">Modifier mon compte</h1>
+
+				{{ form_row(editUserForm.email) }}
+				{{ form_row(editUserForm.password) }}
+				{{ form_row(editUserForm.username) }}
+				{{ form_row(editUserForm.profile_picture_name) }}
+				{{ form_row(editUserForm.banner_name) }}
+
+				{{ form_errors(editUserForm, { 'attr': {'class': 'error-msg'} }) }}
+
+				{{ form_end(editUserForm) }}
+			</div>
+		</div>
+	</body>
+{% endblock %}
+
+{# Bloc vide : empêche le chargement du footer présent dans "base.html.twig" #}
+{% block footer %}{% endblock %}
