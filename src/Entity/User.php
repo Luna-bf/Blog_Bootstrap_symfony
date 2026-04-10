@@ -45,6 +45,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $profilePictureName = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $bannerName = null;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -163,6 +169,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): static
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    public function getProfilePictureName(): ?string
+    {
+        return $this->profilePictureName;
+    }
+
+    public function setProfilePictureName(string $profilePictureName): static
+    {
+        $this->profilePictureName = $profilePictureName;
+
+        return $this;
+    }
+
+    public function getBannerName(): ?string
+    {
+        return $this->bannerName;
+    }
+
+    public function setBannerName(string $bannerName): static
+    {
+        $this->bannerName = $bannerName;
 
         return $this;
     }
