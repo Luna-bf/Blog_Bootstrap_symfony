@@ -10,6 +10,9 @@
 		<div class="d-flex flex-row justify-content-between mb-2" id="profile-div">
 			<ul class="list-unstyled d-flex flex-row justify-content-center justify-content-between" id="profile-nav">
 				<li>
+					{# Voir si je peux définir plusieurs dossier d'upload d'image et si je peux mettre une condition, exemple :
+					si le fichier provient d'une publication portant la catégorie "World", je vais stocker son image dans un
+					dossier nommé "world", si c'est une photo de profil, je vais le stocker dans un dossier "profilePictures"... #}
 					<figure class="w-25"><img src="/assets/imgs/profile/default-pfp.png" alt="Default profile picture" class="w-100 rounded-circle"></figure>
 				</li>
 				{% if not is_granted("ROLE_USER") %}
@@ -19,7 +22,7 @@
 				{% endif %}
 			</ul>
 			<div class="d-flex flex-row align-items-center list-unstyled profile-btns">
-				<a class="btn btn-sm btn-outline-secondary" href="#">
+				<a class="btn btn-sm btn-outline-secondary" href="{{ path('user_settings') }}">
 					<i class="fa-solid fa-gear"></i>Paramètres du profil</a>
 				{# <a href="{{ path('app_logout') }}" class="ms-3 btn btn-outline-danger text-decoration-none" id="logout">
 					<i class="fa-solid fa-arrow-right-from-bracket"></i>Se déconnecter</a> #}
