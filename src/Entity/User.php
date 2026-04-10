@@ -46,10 +46,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $username = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $profilePictureName = null;
+    private ?string $profile_picture_name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $bannerName = null;
+    private ?string $banner_name = null;
 
     public function __construct()
     {
@@ -175,24 +175,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getProfilePictureName(): ?string
     {
-        return $this->profilePictureName;
+        return $this->profile_picture_name;
     }
 
-    public function setProfilePictureName(?string $profilePictureName): static
+    public function setProfilePictureName(?string $profile_picture_name): static
     {
-        $this->profilePictureName = $profilePictureName;
+        $this->profile_picture_name = $profile_picture_name;
 
         return $this;
     }
 
     public function getBannerName(): ?string
     {
-        return $this->bannerName;
+        return $this->banner_name;
     }
 
-    public function setBannerName(?string $bannerName): static
+    public function setBannerName(?string $banner_name): static
     {
-        $this->bannerName = $bannerName;
+        $this->banner_name = $banner_name;
 
         return $this;
     }
