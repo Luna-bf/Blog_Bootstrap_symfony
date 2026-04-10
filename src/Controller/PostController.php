@@ -9,9 +9,12 @@ use App\Repository\PostRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/', name: 'post_')]
 final class PostController extends AbstractController
@@ -25,7 +28,7 @@ final class PostController extends AbstractController
     }
 
     #[Route('/post/forms/create', name: 'create')]
-    public function createNewPost(Request $request, EntityManagerInterface $em): Response
+    public function createNewPost(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads/images')] string $imagesDirectory): Response
     {
         // Nouvelle instance de la classe (entité) Post
         $post = new Post;
@@ -39,8 +42,36 @@ final class PostController extends AbstractController
         // Si le formulaire est envoyé (isSubmitted) et que ces données sont valides (isValid())
         if ($createPostForm->isSubmitted() && $createPostForm->isValid()) {
 
+            // Récupère la valeur de l'input "image_name" et la stocke dans la variable $image
+            $image = $createPostForm->get('image_name')->getData();
+
             // Je récupère toutes les données du formulaire (rempli) et les injectes dans l'objet $post
             $completePost = $createPostForm->getData();
+
+            // Si la valeur du champ de saisie "image_name" (stockée dans la variable $image) n'est pas vide...
+            if ($image) {
+                // Je récupère le nom original de l'image
+                $originalImageName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+
+                // Puis j'utilise un slug pour créer un nom sécurisé
+                $safeFilename = $slugger->slug($originalImageName);
+
+                /* Enfin, je crée le nom définitif de l'image en utilisant la valeur de la variable $safeFileName, j'inclus
+                un identifiant unique grâce à la fonction "uniqid()", puis je précise l'extension de l'image grâce à la fonction
+                "guessExtension()" appliquée sur la variable $image.
+                */
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
+                
+                try {
+                    // Envoie l'image dans le dossier adéquat
+                    $image->move($imagesDirectory, $newFilename);
+                } catch (FileException $e) {
+                    $message = $e;
+                }
+
+                // Stocke le nom de l'image dans la BDD
+                $post->setImageName($newFilename);
+            }
 
             // J'ajoute la date de création (setter) au champ createdAt du formulaire (caché)
             $completePost->setCreatedAt(new \DateTimeImmutable());
