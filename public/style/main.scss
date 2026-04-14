@@ -1,5 +1,6 @@
 @use "../../node_modules/bootstrap/dist/css/bootstrap.css";
 @use "../../node_modules/@fortawesome/fontawesome-free/css/all.css";
-@forward "font/font.scss";
-@forward "pages/forms.scss";
-@forward "pages/profile.scss";
+@forward "font/font";
+@forward "pages/forms";
+@forward "pages/profile";
+@forward "components/footer";
