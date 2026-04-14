@@ -3,10 +3,7 @@
 {% block title %}Connexion - Blog Bootstrap
 {% endblock %}
 
-{% block header %}{% endblock %}
-
 {% block body %}
-
 	<body class="forms-body">
 
 		<div class="shadow">
@@ -20,14 +17,14 @@
 						</div>
 					{% endif %}
 
-					<h1 class="mb-5 text-center text-light">Connexion</h1>
+					<h1 class="mb-5 text-center text-light fw-medium">Connexion</h1>
 
-					<div class="mb-3">
+					<div class="mb-4">
 						<label for="username" class="form-label text-light">Adresse mail</label>
 						<input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
 					</div>
 
-					<div class="mb-3">
+					<div class="mb-4">
 						<label for="password" class="form-label text-light">Password</label>
 						<input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
 					</div>
@@ -48,7 +45,7 @@
 						<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 					{% endif %}
 
-					<button class="btn align-self-start mt-5 w-50 m-auto text-light sign-in" type="submit">
+					<button class="btn align-self-start mt-5 w-50 m-auto text-light bg-dark" type="submit">
 						Se connecter
 					</button>
 				</form>
@@ -60,5 +57,3 @@
 		</div>
 	</body>
 {% endblock %}
-
-{% block footer %}{% endblock %}
