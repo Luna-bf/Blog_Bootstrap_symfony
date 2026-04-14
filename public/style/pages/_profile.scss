@@ -25,13 +25,20 @@
     margin-left: 145px;
 }
 
-#posts-btns {
+#settings-link>a {
+    font-size: 15px;
+    padding: 6.5px 15px 6.5px 15px;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+
+#posts-btn {
     margin-top: 2.5em;
 }
 
-.profile-btns>a {
-    font-size: 15px;
-    padding: 6.5px 15px 6.5px 15px;
+.profile-btn>a {
+    font-size: 16.5px;
+    padding: 8px 17px 8px 17px;
     border-radius: 5px;
     transition: all 0.2s;
 }
@@ -44,8 +51,12 @@
     margin-right: 7px;
 }
 
-#posts {
+#post {
     margin-top: 3.5em;
+}
+
+.post-actions>a, .post-actions form>button {
+    font-size: 14.5px;
 }
 
 // .subscribe-btn:before {
@@ -64,9 +75,9 @@
 //     color: #fff;
 // }
 
-.post-height {
-    height: 60vh;
-}
+// .post-height {
+//     height: 60vh;
+// }
 
 .post-image {
     background-position: center;
@@ -76,9 +87,4 @@
 #categories {
     border: 1px solid #5d5d5d;
     color: #5d5d5d;
-}
-
-footer {
-    margin-top: 4em;
-    padding: 15px;
 }
