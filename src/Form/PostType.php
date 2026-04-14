@@ -30,7 +30,7 @@ class PostType extends AbstractType
 
                 // Attributs du label
                 'label_attr' => [
-                    'class' => 'form-label text-light'
+                    'class' => 'form-label text-white'
                 ],
 
                 // Attributs de l'input
@@ -48,7 +48,7 @@ class PostType extends AbstractType
 
                 // Attributs du label
                 'label_attr' => [
-                    'class' => 'form-label text-light'
+                    'class' => 'form-label text-white'
                 ],
 
                 // Attributs de l'input
@@ -70,7 +70,7 @@ class PostType extends AbstractType
 
                 // Attributs du label
                 'label_attr' => [
-                    'class' => 'form-label text-light'
+                    'class' => 'form-label text-white'
                 ],
 
                 // Attributs de l'input
@@ -93,7 +93,7 @@ class PostType extends AbstractType
 
                 // Attributs du label
                 'label_attr' => [
-                    'class' => 'form-label text-light'
+                    'class' => 'form-label text-white'
                 ],
 
                 // Attributs de l'input
@@ -121,7 +121,7 @@ class PostType extends AbstractType
 
                 // Attributs du label
                 'label_attr' => [
-                    'class' => 'form-label text-light'
+                    'class' => 'form-label text-white'
                 ],
 
                 // Attributs de l'input
@@ -139,7 +139,7 @@ class PostType extends AbstractType
 
                 // Attributs de l'input
                 'attr' => [
-                    'class' => 'btn align-self-start mt-3 w-50 m-auto text-light sign-in',
+                    'class' => 'btn align-self-start mt-3 w-50 m-auto text-white sign-in',
                 ]
             ])
         ;

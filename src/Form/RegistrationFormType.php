@@ -30,7 +30,7 @@ class RegistrationFormType extends AbstractType
 
                 // Attributs du label
                 'label_attr' => [
-                    'class' => 'form-label text-light'
+                    'class' => 'form-label text-white'
                 ],
 
                 // Attributs de l'input
@@ -49,7 +49,7 @@ class RegistrationFormType extends AbstractType
 
                 // Attributs du label
                 'label_attr' => [
-                    'class' => 'form-label text-light'
+                    'class' => 'form-label text-white'
                 ],
 
                 // Attributs de l'input
@@ -60,7 +60,7 @@ class RegistrationFormType extends AbstractType
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'label_attr' => [
-                    'class' => 'me-2 text-center text-light'
+                    'class' => 'me-2 text-center text-white'
                 ],
                 'constraints' => [
                     new IsTrue(
@@ -84,7 +84,7 @@ class RegistrationFormType extends AbstractType
 
                 // Attributs du label
                 'label_attr' => [
-                    'class' => 'form-label text-light'
+                    'class' => 'form-label text-white'
                 ],
 
                 // Attributs de l'input
