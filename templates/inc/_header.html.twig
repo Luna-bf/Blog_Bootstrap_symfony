@@ -1,13 +1,14 @@
 {% block header %}
 	{# <HEADER> #}
-	<header class="container border-bottom lh-1 py-3">
+	{# container border-bottom lh-1 py-3 bg-dark w-100 #}
+	<header class="px-3 bg-dark w-100">
 		{# <NAV> #}
-		<nav class="row flex-nowrap justify-content-between align-items-center">
+		<nav class="row d-flex flex-wrap justify-content-between align-items-center">
 			{# <UL> #}
 			<ul class="list-unstyled d-flex align-items-center m-0">
 				{# <LI> (Search) #}
 				<li class="col-4">
-					<a class="link-secondary" href="#" aria-label="Search">
+					<a class="text-white" href="#" aria-label="Search">
 						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewbox="0 0 24 24">
 							<title>Search</title>
 							<circle cx="10.5" cy="10.5" r="7.5"></circle>
@@ -19,7 +20,7 @@
 
 				{# <LI> (Blog Bootstrap) #}
 				<li class="col-4 text-center">
-					<a class="blog-header-logo text-body-emphasis text-decoration-none" href="#">Blog Bootstrap</a>
+					<a class="blog-header-logo text-white text-decoration-none" href="#">Blog Bootstrap</a>
 				</li>
 				{# FIN <LI> (Blog Bootstrap) #}
 				
@@ -29,8 +30,8 @@
 						<a class="text-secondary text-decoration-none" href="{{ path('user_index') }}">Bonjour,
 							{{ app.user.username }}</a>
 					{% else %}
-						<a class="btn btn-sm btn-outline-secondary" href="{{ path('app_register') }}">S'inscrire</a>
-						<a class="btn btn-sm btn-outline-secondary ms-2" href="{{ path('app_login') }}">Se connecter</a>
+						<a class="text-light text-decoration-none" href="{{ path('app_register') }}">Inscription</a>
+						<a class="text-light text-decoration-none ms-3" href="{{ path('app_login') }}">Connexion</a>
 					{% endif %}
 				</li>
 				{# FIN <LI> (User) #}
