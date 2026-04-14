@@ -28,7 +28,7 @@ final class UserController extends AbstractController
     }
 
     #[Route('/settings', name: 'settings')]
-    public function settings(UserRepository $repo, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads/profile_pictures')] string $profilePicturesDirectory, #[Autowire('%kernel.project_dir%/public/uploads/banners')] string $bannersDirectory): Response
+    public function settings(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads/profile_pictures')] string $profilePicturesDirectory, #[Autowire('%kernel.project_dir%/public/uploads/banners')] string $bannersDirectory): Response
     {
         // Je récupère les informations de l'utilisateur connecté
         $userForm = $this->getUser();
