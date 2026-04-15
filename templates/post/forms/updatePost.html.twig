@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle publication - Blog Bootstrap
+{% endblock %}
+
+{% block body %}
+	<body class="forms-body">
+		<div class="shadow">
+
+			<section class="d-flex flex-column form-div" id="create-post-div">
+				{{ form_start(updatePostForm, { 'attr': {'class': 'w-50 d-flex flex-column justify-content-center rounded-3'} }) }}
+				<h1 class="mb-5 text-center text-light">Modifier la publication</h1>
+
+				{#
+	            La date (DateTimeImmutable) sera envoyée par le contrôleur grâce au setter "setCreatedAt". Effectuer l'envoi de
+				cette donnée côté serveur est plus sécurisé car l'utilisateur n'y aura jamais accès (envoyer cette donnée via un
+				formulaire lui donnerais la possibilité de modifier une donnée sensible, ce qui n'est pas désirable).
+	            #}
+				{{ form_row(updatePostForm.title) }}
+				{{ form_row(updatePostForm.content) }}
+				{{ form_row(updatePostForm.category) }}
+				{{ form_row(updatePostForm.image_name) }}
+				
+				{{ form_errors(updatePostForm) }}
+
+				{{ form_row(updatePostForm.submit, {'label': 'Modifier'}) }}
+
+				{{ form_end(updatePostForm) }}
+			</section>
+		</div>
+	</body>
+{% endblock %}
