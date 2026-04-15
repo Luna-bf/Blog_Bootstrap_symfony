@@ -20,16 +20,27 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 final class PostController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(PostRepository $repo): Response
+    public function index(PostRepository $postRepo, CategoryRepository $categoryRepo): Response
     {
         return $this->render('post/index.html.twig', [
-            'posts' => $repo->findAll(),
+            'posts' => $postRepo->findAll(),
+            'categories' => $categoryRepo->findAll(),
+        ]);
+    }
+
+    #[Route('/post/{id}', name: 'show')]
+    public function showPost(Post $post) {
+        
+        return $this->render('post/showPost.html.twig', [
+            'post' => $post
         ]);
     }
 
     #[Route('/post/forms/create', name: 'create')]
     public function createNewPost(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads/images')] string $imagesDirectory): Response
     {
+        $message = ""; // Initialisation de la variable contenant le message d'erreur pour les fichiers (FileException)
+
         // Nouvelle instance de la classe (entité) Post
         $post = new Post;
 
@@ -61,7 +72,7 @@ final class PostController extends AbstractController
                 "guessExtension()" appliquée sur la variable $image.
                 */
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
-                
+
                 try {
                     // Envoie l'image dans le dossier adéquat
                     $image->move($imagesDirectory, $newFilename);
@@ -73,7 +84,11 @@ final class PostController extends AbstractController
                 $post->setImageName($newFilename);
             }
 
-            // J'ajoute la date de création (setter) au champ createdAt du formulaire (caché)
+            /*
+            La date (DateTimeImmutable) sera envoyée par le contrôleur grâce au setter "setCreatedAt". Effectuer l'envoi de cette
+            donnée côté serveur est plus sécurisé car l'utilisateur n'y aura jamais accès (envoyer cette donnée via un formulaire
+            lui donnerais la possibilité de modifier une donnée sensible, ce qui n'est pas désirable).
+            */
             $completePost->setCreatedAt(new \DateTimeImmutable());
 
             $user = $this->getUser(); // Je récupère les données l'utilisateur connecté
@@ -87,6 +102,65 @@ final class PostController extends AbstractController
 
         return $this->render('post/forms/createPost.html.twig', [
             'createPostForm' => $createPostForm,
+            'message' => $message
+        ]);
+    }
+
+    // {id} est un paramètre dynamique : il va récupérer l'identifiant associé au post à modifier pour afficher le formulaire adéquat
+    #[Route('/post/forms/update/{id}', name: 'update')]
+    public function updatePost(Post $post, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads/images')] string $imagesDirectory): Response
+    {
+        $message = ""; // Initialisation de la variable contenant le message d'erreur pour les fichiers (FileException)
+
+        // Initialisation du formulaire
+        $updatePostForm = $this->createForm(PostType::class, $post); // $post représente une ligne récupérée dans la BDD
+
+        // Traitement du formulaire
+        $updatePostForm->handleRequest($request);
+
+        // Si le formulaire est envoyé (isSubmitted) et que ces données sont valides (isValid())
+        if ($updatePostForm->isSubmitted() && $updatePostForm->isValid()) {
+
+            // Récupère la valeur de l'input "image_name" et la stocke dans la variable $image
+            $image = $updatePostForm->get('image_name')->getData();
+
+            // Je récupère toutes les données du formulaire (rempli) et les injectes dans l'objet $post
+            $completePost = $updatePostForm->getData();
+
+            // Si la valeur du champ de saisie "image_name" (stockée dans la variable $image) n'est pas vide...
+            if ($image) {
+                // Je récupère le nom original de l'image
+                $originalImageName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+
+                // Puis j'utilise un slug pour créer un nom sécurisé
+                $safeFilename = $slugger->slug($originalImageName);
+
+                /* Enfin, je crée le nom définitif de l'image en utilisant la valeur de la variable $safeFileName, j'inclus
+                un identifiant unique grâce à la fonction "uniqid()", puis je précise l'extension de l'image grâce à la fonction
+                "guessExtension()" appliquée sur la variable $image.
+                */
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
+
+                try {
+                    // Envoie l'image dans le dossier adéquat
+                    $image->move($imagesDirectory, $newFilename);
+                } catch (FileException $error) {
+                    $message = $error;
+                }
+
+                // Stocke le nom de l'image dans la BDD
+                $post->setImageName($newFilename);
+            }
+
+            $em->persist($post);
+            $em->flush(); // Exécute la requête préparée
+
+            return $this->redirectToRoute('user_index');
+        }
+
+        return $this->render('post/forms/updatePost.html.twig', [
+            'updatePostForm' => $updatePostForm,
+            'message' => $message
         ]);
     }
 }
