@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.title }} - Blog Bootstrap
+{% endblock %}
+
+{% block body %}
+	{# Début MAIN #}
+	<main class="container m-auto">
+		<div class="banner" style="background-image: url('{{ asset('uploads/images/' ~ post.imageName) }}')" alt="{{ post.imageName }}"></div>
+		{# SECTION (contient tous les posts) #}
+		<section class="row mb-2 m-0">
+			{# ARTICLE (conteneur parent de l'un des posts) #}
+			<article class="col-md-12 post-article" id="{{ post.id }}">
+				{# DIV (conteneur enfant du post) #}
+				<div class="row g-0 post-div">
+					{# DIV (contenu du post) #}
+					<div class="col-12 p-4 d-flex flex-column position-static">
+						<div class="mt-2 mb-4 text-center d-flex flex-row justify-content-center">
+                            <h3>{{ post.title }}<h3>
+                        </div>
+                        <strong class="d-inline-block mb-2 text-success-emphasis"><span class="me-2 rounded-circle" style="background-color: {{ post.category.color }}; color: {{ post.category.color }}; border: 2px solid {{post.category.color}};">Ok</span>{{ post.category.name }}</strong>
+						<p class="mb-2 text-body-secondary">Publié le {{ post.createdAt | date("d/m/y") }} par <a href="#">{{ post.myUser.username }}</a></p>
+						<p class="mt-5 mb-auto">{{ post.content }}</p>
+					</div>
+					<aside class="col-4 d-lg-flex d-inline-block post-image" style="" alt="{{ post.imageName }}"></aside>
+					{# FIN DIV (contenu du post) #}
+				</div>
+				{# FIN DIV (conteneur enfant du post) #}
+			</article>
+		</section>
+		{# FIN SECTION #}
+	</main>
+	{# FIN MAIN #}
+{% endblock %}
+
+{% block footer %}{% endblock %}
