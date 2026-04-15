@@ -23291,7 +23291,6 @@ body {
 
 .banner {
   min-height: 40vh;
-  background-image: url("../../assets/imgs/profile/placeholder-picture.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -23342,22 +23341,8 @@ body {
   margin-right: 7px;
 }
 
-#post {
-  margin-top: 3.5em;
-}
-
 .post-actions > a, .post-actions form > button {
   font-size: 14.5px;
-}
-
-.post-image {
-  background-position: center;
-  background-size: cover;
-}
-
-#categories {
-  border: 1px solid #5d5d5d;
-  color: #5d5d5d;
 }
 
 footer {
@@ -23368,4 +23353,31 @@ footer {
 header {
   padding-top: 20px;
   padding-bottom: 20px;
+}
+
+#post {
+  margin-top: 3.5em;
+}
+
+.post-image {
+  background-position: center;
+  background-size: cover;
+}
+
+.post-article {
+  margin-bottom: 45px;
+}
+
+.post-div {
+  height: 40vh;
+}
+
+.post-div div strong > span {
+  font-size: 13px;
+}
+
+.post-content {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }/*# sourceMappingURL=main.css.map */
