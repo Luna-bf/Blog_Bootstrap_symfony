@@ -6,31 +6,16 @@
 {% block body %}
 	{% block main %}
 		{# <MAIN> #}
-		<main class="container">
+		<main
+			class="container">
 			{# <NAV> (catégories) #}
-			<nav class="border-bottom">
+			<nav
+				class="border-bottom">
 				{# Récupère toutes les catégories dans la BDD #}
 				<ol class="list-unstyled d-flex align-items-center justify-content-between flex-wrap my-2">
-					<li id="#" class="mx-3 my-2">Catégorie 1</li>
-					<li id="#" class="mx-3 my-2">Catégorie 2</li>
-					<li id="#" class="mx-3 my-2">Catégorie 3</li>
-					<li id="#" class="mx-3 my-2">Catégorie 4</li>
-					<li id="#" class="mx-3 my-2">Catégorie 5</li>
-					<li id="#" class="mx-3 my-2">Catégorie 6</li>
-					<li id="#" class="mx-3 my-2">Catégorie 7</li>
-					<li id="#" class="mx-3 my-2">Catégorie 8</li>
-					<li id="#" class="mx-3 my-2">Catégorie 9</li>
-					<li id="#" class="mx-3 my-2">Catégorie 10</li>
-					<li id="#" class="mx-3 my-2">Catégorie 11</li>
-					<li id="#" class="mx-3 my-2">Catégorie 12</li>
-					<li id="#" class="mx-3 my-2">Catégorie 13</li>
-					<li id="#" class="mx-3 my-2">Catégorie 14</li>
-					<li id="#" class="mx-3 my-2">Catégorie 15</li>
-					<li id="#" class="mx-3 my-2">Catégorie 16</li>
-					<li id="#" class="mx-3 my-2">Catégorie 17</li>
-					<li id="#" class="mx-3 my-2">Catégorie 18</li>
-					<li id="#" class="mx-3 my-2">Catégorie 19</li>
-					<li id="#" class="mx-3 my-2">Catégorie 20</li>
+					{% for category in categories %}
+						<li id="#" class="mx-3 my-2">{{ category.name }}</li>
+					{% endfor %}
 				</ol>
 			</nav>
 			{# FIN <NAV> (catégories) #}
@@ -38,75 +23,24 @@
 			{# SECTION (contient tous les posts) #}
 			<section class="row my-5">
 				{# ARTICLE (conteneur parent de l'un des posts) #}
-				<article class="col-md-6 mb-2" id="#">
-					{# DIV (conteneur enfant du post) #}
-					<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative post-height">
-						{# DIV (contenu du post) #}
-						<div class="col-6 p-4 d-flex flex-column position-static">
-							<strong class="d-inline-block mb-2 text-success-emphasis">Design</strong>
-							<h3 class="mb-3">Post Title</h3>
-							<div class="mb-3 text-body-secondary">Nov 12</div>
-							<p class="mb-auto">Post content...</p>
-							<a href="#" class="mt-3 icon-link gap-1 icon-link-hover stretched-link">
-								Lire la suite
-								<svg class="bi" aria-hidden="true">
-									<use xlink:href="#chevron-right"></use>
-								</svg>
-							</a>
+				{% for post in posts %}
+					<article class="col-md-6" id="{{ post.id }}">
+						{# DIV (conteneur enfant du post) #}
+						<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative post-div">
+							{# DIV (contenu du post) #}
+							<div class="col-8 p-4 d-flex flex-column position-static">
+								<strong class="d-inline-block mb-2 text-success-emphasis">{{ post.category.name }}</strong>
+								<h3 class="mb-3">{{ post.title }}</h3>
+								<div class="mb-3 text-body-secondary">{{ post.createdAt | date("d/m/y") }}</div>
+								<p class="mb-auto post-content">{{ post.content }}</p>
+								<a href="{{ path('post_show', {id: post.id}) }}" class="mt-3">Lire la suite</a>
+							</div>
+							<aside class="col-4 d-lg-flex d-inline-block post-image" style="background-image:url('{{ asset('uploads/images/' ~ post.imageName) }}')" alt="{{ post.imageName }}"></aside>
+							{# FIN DIV (contenu du post) #}
 						</div>
-						<aside class="col-6 d-lg-flex d-inline-block post-image" style="background-image:url('assets/imgs/posts/design/design.png')"></aside>
-						{# FIN DIV (contenu du post) #}
-					</div>
-					{# FIN DIV (conteneur enfant du post) #}
-				</article>
-				{# FIN ARTICLE #}
-
-				{# ARTICLE (conteneur parent de l'un des posts) #}
-				<article class="col-md-6 m-0" id="#">
-					{# DIV (conteneur enfant du post) #}
-					<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative post-height">
-						{# DIV (contenu du post) #}
-						<div class="col-6 p-4 d-flex flex-column position-static">
-							<strong class="d-inline-block mb-2 text-success-emphasis">World</strong>
-							<h3 class="mb-3">Post Title</h3>
-							<div class="mb-3 text-body-secondary">Nov 12</div>
-							<p class="mb-auto">Post content...</p>
-							<a href="#" class="mt-3 icon-link gap-1 icon-link-hover stretched-link">
-								Lire la suite
-								<svg class="bi" aria-hidden="true">
-									<use xlink:href="#chevron-right"></use>
-								</svg>
-							</a>
-						</div>
-						<aside class="col-6 d-lg-flex d-inline-block post-image" style="background-image:url('assets/imgs/posts/world/town.png')"></aside>
-						{# FIN DIV (contenu du post) #}
-					</div>
-					{# FIN DIV (conteneur enfant du post) #}
-				</article>
-				{# FIN ARTICLE #}
-
-				{# ARTICLE (conteneur parent de l'un des posts) #}
-				<article class="col-md-6 m-0" id="#">
-					{# DIV (conteneur enfant du post) #}
-					<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative post-height">
-						{# DIV (contenu du post) #}
-						<div class="col-6 p-4 d-flex flex-column position-static">
-							<strong class="d-inline-block mb-2 text-success-emphasis">Animal</strong>
-							<h3 class="mb-3">Post Title</h3>
-							<div class="mb-3 text-body-secondary">Nov 12</div>
-							<p class="mb-auto">Post content...</p>
-							<a href="#" class="mt-3 icon-link gap-1 icon-link-hover stretched-link">
-								Lire la suite
-								<svg class="bi" aria-hidden="true">
-									<use xlink:href="#chevron-right"></use>
-								</svg>
-							</a>
-						</div>
-						<aside class="col-6 d-lg-flex d-inline-block post-image" style="background-image:url('assets/imgs/posts/other/kitten.png')"></aside>
-						{# FIN DIV (contenu du post) #}
-					</div>
-					{# FIN DIV (conteneur enfant du post) #}
-				</article>
+						{# FIN DIV (conteneur enfant du post) #}
+					</article>
+				{% endfor %}
 				{# FIN ARTICLE #}
 			</section>
 			{# FIN SECTION #}
