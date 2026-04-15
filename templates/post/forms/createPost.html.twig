@@ -3,9 +3,6 @@
 {% block title %}Nouvelle publication - Blog Bootstrap
 {% endblock %}
 
-{# Bloc vide : empêche le chargement du header présent dans "base.html.twig" #}
-{% block header %}{% endblock %}
-
 {% block body %}
 	<body class="forms-body">
 		<div class="shadow">
@@ -14,11 +11,16 @@
 				{{ form_start(createPostForm, { 'attr': {'class': 'w-50 d-flex flex-column justify-content-center rounded-3'} }) }}
 				<h1 class="mb-5 text-center text-light">Créer une nouvelle publication</h1>
 
+				{#
+	            La date (DateTimeImmutable) sera envoyée par le contrôleur grâce au setter "setCreatedAt". Effectuer l'envoi de
+				cette donnée côté serveur est plus sécurisé car l'utilisateur n'y aura jamais accès (envoyer cette donnée via un
+				formulaire lui donnerais la possibilité de modifier une donnée sensible, ce qui n'est pas désirable).
+	            #}
 				{{ form_row(createPostForm.title) }}
 				{{ form_row(createPostForm.content) }}
 				{{ form_row(createPostForm.category) }}
 				{{ form_row(createPostForm.image_name) }}
-				{{ form_row(createPostForm.created_at) }}
+				{{ form_row(createPostForm.submit) }}
 
 				{{ form_errors(createPostForm, { 'attr': {'class': 'error-msg'} }) }}
 
@@ -27,6 +29,3 @@
 		</div>
 	</body>
 {% endblock %}
-
-{# Bloc vide : empêche le chargement du footer présent dans "base.html.twig" #}
-{% block footer %}{% endblock %}
