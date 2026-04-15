@@ -1,0 +1,22 @@
+#post {
+    margin-top: 3.5em;
+}
+
+.post-image {
+    background-position: center;
+    background-size: cover;
+}
+
+.post-article {
+    margin-bottom: 45px;
+}
+
+.post-div {
+    height: 40vh;
+}
+
+.post-content {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
