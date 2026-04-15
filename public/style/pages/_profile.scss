@@ -16,6 +16,17 @@
     margin-left: 20px;
 }
 
+// #profile-nav li>div {
+//     width: 7%;
+//     min-height: 6.7em;
+//     position: absolute;
+//     top: 345px;
+//     margin-left: 20px;
+//     background-size: cover;
+//     background-position: center;
+//     border: 6px solid #fff;
+// }
+
 #profile-nav figure>img {
     border: 6px solid #fff;
 }
@@ -50,10 +61,6 @@
     margin-right: 7px;
 }
 
-#post {
-    margin-top: 3.5em;
-}
-
 .post-actions>a, .post-actions form>button {
     font-size: 14.5px;
 }
@@ -73,17 +80,3 @@
 //     font-weight: 900;
 //     color: #fff;
 // }
-
-// .post-height {
-//     height: 60vh;
-// }
-
-.post-image {
-    background-position: center;
-    background-size: cover;
-}
-
-#categories {
-    border: 1px solid #5d5d5d;
-    color: #5d5d5d;
-}
