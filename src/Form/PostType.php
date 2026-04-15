@@ -4,10 +4,10 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Post;
+use DateTimeImmutable;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -58,26 +58,11 @@ class PostType extends AbstractType
                     'cols' => '33',
                 ]
             ])
-            ->add('created_at', HiddenType::class, [
-                // 'widget' => 'single_text',
-
-                'label' => 'Date de la publication',
-
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4'
-                ],
-
-                // Attributs du label
-                'label_attr' => [
-                    'class' => 'form-label text-white'
-                ],
-
-                // Attributs de l'input
-                'attr' => [
-                    'class' => 'form-control',
-                ]
-            ])
+            /*
+            La date (DateTimeImmutable) sera envoyée par le contrôleur grâce au setter "setCreatedAt". Effectuer l'envoi de cette
+            donnée côté serveur est plus sécurisé car l'utilisateur n'y aura jamais accès (envoyer cette donnée via un formulaire
+            lui donnerais la possibilité de modifier une donnée sensible, ce qui n'est pas désirable).
+            */
             ->add('image_name', FileType::class, [
                 'label' => 'Image',
 
@@ -100,7 +85,7 @@ class PostType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
-                
+
                 'constraints' => [
                     new Assert\File(
                         extensions: ['jpeg', 'png', 'jpg'],
@@ -134,12 +119,12 @@ class PostType extends AbstractType
 
                 // Attributs de la div générée par $builder
                 'row_attr' => [
-                    'class' => 'mb-4'
+                    'class' => 'mb-4 d-flex justify-content-center'
                 ],
 
                 // Attributs de l'input
                 'attr' => [
-                    'class' => 'btn align-self-start mt-3 w-50 m-auto text-white sign-in',
+                    'class' => 'btn align-self-start mt-3 w-50 m-auto text-white bg-dark',
                 ]
             ])
         ;
