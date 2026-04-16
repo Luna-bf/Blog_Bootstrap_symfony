@@ -16,17 +16,17 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+// #[IsGranted('ROLE_USER')] : Ces routes ne sont accessibles que si l'utilisateur est connecté
+#[IsGranted('ROLE_USER')]
 #[Route('/user', name: 'user_')]
 final class UserController extends AbstractController
 {
-    // #[IsGranted('ROLE_USER')] : Cette route n'est accessible que si l'utilisateur est connecté
     /*
     La ligne "#[CurrentUser] User $user" va récupérer toutes les informations de l'utilisateur actuellement connecté :
 
     - User $user : injecte l'objet (l'entité) User dans la variable $user.
     - #[CurrentUser] : est un attribut PHP qui va me permettre de récupérer toutes les informations de l'utilisateur connecté
     */
-    #[IsGranted('ROLE_USER')]
     #[Route('', name: 'index')]
     public function index(PostRepository $repo, #[CurrentUser] User $user): Response
     {
@@ -73,7 +73,7 @@ final class UserController extends AbstractController
                 "guessExtension()" appliquée sur la variable $image.
                 */
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $profilePicture->guessExtension();
-                
+
                 try {
                     // Envoie l'image dans le dossier adéquat
                     $profilePicture->move($profilePicturesDirectory, $newFilename);
@@ -97,7 +97,7 @@ final class UserController extends AbstractController
                 "guessExtension()" appliquée sur la variable $image.
                 */
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $banner->guessExtension();
-                
+
                 try {
                     // Envoie l'image dans le dossier adéquat
                     $banner->move($bannersDirectory, $newFilename);
