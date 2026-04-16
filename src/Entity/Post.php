@@ -5,11 +5,8 @@ namespace App\Entity;
 use App\Repository\PostRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Attribute as Vich;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
-#[Vich\Uploadable]
 class Post
 {
     #[ORM\Id]
@@ -26,10 +23,7 @@ class Post
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[Vich\UploadableField(mapping: 'uploads', fileNameProperty: 'image_name')]
-    private ?File $image_file = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $image_name = null;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
@@ -79,22 +73,6 @@ class Post
         $this->created_at = $created_at;
 
         return $this;
-    }
-    
-    public function setImageFile(?File $image_file = null): void
-    {
-        $this->image_file = $image_file;
-
-        if (null !== $image_file) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->created_at = new \DateTimeImmutable();
-        }
-    }
-
-    public function getImageFile(): ?File
-    {
-        return $this->image_file;
     }
 
     public function getImageName(): ?string
