@@ -29,7 +29,7 @@
 						<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative post-div">
 							{# DIV (contenu du post) #}
 							<div class="col-8 p-4 d-flex flex-column position-static">
-								<strong class="d-inline-block mb-2 text-success-emphasis"><span class="me-2 rounded-circle" style="background-color: {{ post.category.color }}; color: {{ post.category.color }}; border: 2px solid {{post.category.color}};">Ok</span>{{ post.category.name }}</strong>
+								<strong class="d-inline-block mb-2"><span class="me-1 rounded-circle" style="background-color: {{ post.category.color }}; color: {{ post.category.color }}; border: 2px solid {{post.category.color}};">Ok</span>{{ post.category.name }}</strong>
 								<h3 class="mb-3">{{ post.title }}</h3>
 								<div class="mb-3 text-body-secondary">{{ post.createdAt | date("d/m/y") }}</div>
 								<p class="mb-auto post-content">{{ post.content }}</p>

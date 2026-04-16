@@ -18,7 +18,7 @@
 						<div class="mt-2 mb-4 text-center d-flex flex-row justify-content-center">
                             <h3>{{ post.title }}<h3>
                         </div>
-                        <strong class="d-inline-block mb-2 text-success-emphasis"><span class="me-2 rounded-circle" style="background-color: {{ post.category.color }}; color: {{ post.category.color }}; border: 2px solid {{post.category.color}};">Ok</span>{{ post.category.name }}</strong>
+                        <strong class="d-inline-block mb-2"><span class="me-1 rounded-circle" style="background-color: {{ post.category.color }}; color: {{ post.category.color }}; border: 2px solid {{post.category.color}};">Ok</span>{{ post.category.name }}</strong>
 						<p class="mb-2 text-body-secondary">Publié le {{ post.createdAt | date("d/m/y") }} par <a href="#">{{ post.myUser.username }}</a></p>
 						<p class="mt-5 mb-auto">{{ post.content }}</p>
 					</div>
