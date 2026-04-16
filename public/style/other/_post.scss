@@ -8,11 +8,11 @@
 }
 
 .post-article {
-    margin-bottom: 45px;
+    margin-bottom: 30px;
 }
 
 .post-div {
-    height: 40vh;
+    flex: 1;
 }
 
 .post-div div strong>span {
@@ -23,4 +23,8 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+
+.post-actions>a, .post-actions form>button {
+    font-size: 14.5px;
 }
