@@ -21,10 +21,10 @@
 			{# FIN <NAV> (catégories) #}
 
 			{# SECTION (contient tous les posts) #}
-			<section class="row my-5">
+			<section class="row my-5 d-flex">
 				{# ARTICLE (conteneur parent de l'un des posts) #}
 				{% for post in posts %}
-					<article class="col-md-6" id="{{ post.id }}">
+					<article class="col-md-6 d-flex post-article" id="{{ post.id }}">
 						{# DIV (conteneur enfant du post) #}
 						<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative post-div">
 							{# DIV (contenu du post) #}

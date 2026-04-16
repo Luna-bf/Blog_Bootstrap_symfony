@@ -30,22 +30,25 @@
 				{# <li class="btn btn-sm btn-outline-secondary mt-2 subscribe-btn">S'abonner</li> #}
 			</div>
 		</div>
-		<div class="d-flex flex-row justify-content-center align-items-center mt-5 mb-5 profile-btn" id="posts-btn">
+		<div class="d-flex justify-content-center align-items-center mt-5 mb-5 profile-btn" id="posts-btn">
 			<a href="{{ path('post_create') }}" class="me-4 btn btn-outline-success">
 				<i class="fa-solid fa-plus"></i>Créer un nouveau post</a>
 		</div>
+
 		{# SECTION (contient tous les posts) #}
-		<section class="row mb-2 m-0">
-			<h1 class="d-flex flex-row justify-content-between mt-5 mb-5">Vos publications</h1>
+		<section class="row justify-content-center mb-2">
+			<h1 class="mb-5 mt-5">Vos publications</h1>
 			{% for post in posts %}
 				{% if app.user.id == post.myUser.id %}
 					{# ARTICLE (conteneur parent de l'un des posts) #}
-					<article class="col-md-6 post-article" id="{{ post.id }}">
+					<article class="col-md-6 d-flex post-article" id="{{ post.id }}">
 						{# DIV (conteneur enfant du post) #}
 						<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative post-div">
 							{# DIV (contenu du post) #}
 							<div class="col-8 p-4 d-flex flex-column position-static">
-								<strong class="d-inline-block mb-2 text-success-emphasis"><span class="me-2 rounded-circle" style="background-color: {{ post.category.color }}; color: {{ post.category.color }}; border: 2px solid {{post.category.color}};">Ok</span>{{ post.category.name }}</strong>
+								<strong class="d-inline-block mb-2 text-success-emphasis">
+									<span class="me-2 rounded-circle" style="background-color: {{ post.category.color }}; color: {{ post.category.color }}; border: 2px solid {{post.category.color}};">Ok</span>
+									{{ post.category.name }}</strong>
 								<h3 class="mb-3">{{ post.title }}</h3>
 								<div class="mb-3 text-body-secondary">{{ post.createdAt | date("d/m/y") }}</div>
 								<p class="mb-auto post-content">{{ post.content }}</p>
@@ -53,19 +56,20 @@
 							</div>
 							<aside class="col-4 d-lg-flex d-inline-block post-image" style="background-image:url('{{ asset('uploads/images/' ~ post.imageName) }}')" alt="{{ post.imageName }}"></aside>
 							{# FIN DIV (contenu du post) #}
+
+							{# Post-actions (lien et bouton d'action) #}
+							<section class="d-flex align-items-center justify-content-center border-top post-actions">
+								<a href="{{ path('post_update', {id: post.id}) }}" class="btn btn-outline-success my-3">
+									<i class="fa-solid fa-pen me-2"></i>Modifier</a>
+								<form action="{{ path('post_delete', {id: post.id}) }}">
+									<input type="hidden" name="token" value="{{ csrf_token('delete_post') }}">
+									<button class="ms-3 btn btn-outline-danger">
+										<i class="fa-solid fa-ban me-2"></i>Supprimer</button>
+								</form>
+							</section>
+							{# Fin Post-actions (boutons d'action) #}
 						</div>
 						{# FIN DIV (conteneur enfant du post) #}
-
-						{# Post-actions (lien et bouton d'action) #}
-						<div class="d-flex post-actions">
-							<a href="{{ path('post_update', {id: post.id}) }}" class="btn btn-outline-success">
-								<i class="fa-solid fa-pen me-2"></i>Modifier</a>
-							<form action="{{ path('post_create') }}">
-								<button class="ms-2 btn btn-outline-danger">
-									<i class="fa-solid fa-ban me-2"></i>Supprimer</button>
-							</form>
-						</div>
-						{# Fin Post-actions (boutons d'action) #}
 					</article>
 				{% endif %}
 			{% endfor %}
