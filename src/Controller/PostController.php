@@ -8,6 +8,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\PostRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -162,5 +163,26 @@ final class PostController extends AbstractController
             'updatePostForm' => $updatePostForm,
             'message' => $message
         ]);
+    }
+
+    // {id} est un paramètre dynamique : il va récupérer l'identifiant associé au post à modifier pour afficher le formulaire adéquat
+    #[Route('/post/{id}/delete', name: 'delete')]
+    public function deletePost(PostRepository $post, Request $request, EntityManagerInterface $em): Response
+    {
+        // Récupère la valeur de l'input nommé "token" (le jeton CSRF)
+        $submittedToken = $request->getPayload()->get('token');
+
+        // Vérifie si le jeton CSRF nommé "delete-post" correspond à la valeur récupérée par la variable $submittedToken
+        if ($this->isCsrfTokenValid('delete-post', $submittedToken)) {
+
+            $em->remove($post);
+            $em->flush();
+
+            $this->addFlash('success', 'La publication a été supprimée avec succès.');
+
+            return $this->redirectToRoute('user_index');
+        } else {
+            throw new Exception("Le jeton CSRF est invalide.");
+        }
     }
 }

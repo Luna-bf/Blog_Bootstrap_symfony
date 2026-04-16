@@ -61,8 +61,8 @@
 							<section class="d-flex align-items-center justify-content-center border-top post-actions">
 								<a href="{{ path('post_update', {id: post.id}) }}" class="btn btn-outline-success my-3">
 									<i class="fa-solid fa-pen me-2"></i>Modifier</a>
-								<form action="{{ path('post_delete', {id: post.id}) }}">
-									<input type="hidden" name="token" value="{{ csrf_token('delete_post') }}">
+								<form action="{{ path('post_delete', {id: post.id}) }}" method="post">
+									<input type="hidden" name="token" value="{{ csrf_token('delete-post') }}">
 									<button class="ms-3 btn btn-outline-danger">
 										<i class="fa-solid fa-ban me-2"></i>Supprimer</button>
 								</form>
