@@ -11,6 +11,11 @@
     margin-bottom: 30px;
 }
 
+/*
+.post-div contient la propriété "display: flex" en tant que classe Bootstrap, je lui ajoute ensuite la propriété "flex: 1"
+afin que les éléments portant cette classe (le conteneur enfant du post) prennent toute la place disponible dans leur ligne.
+Cela permet aux éléments portant cette classe de faire la même taille, sans prendre compte de leur contenu.
+*/
 .post-div {
     flex: 1;
 }

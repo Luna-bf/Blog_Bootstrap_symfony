@@ -5,6 +5,7 @@
 
 {% block body %}
 	{# Début MAIN #}
+	{# La classe container permet de créer un conteneur responsive #}
 	<main class="container m-auto">
 		<div class="banner" style="background-image: url('/assets/imgs/profile/placeholder-picture.png')"></div>
 		<div class="d-flex flex-row justify-content-between mt-2" id="profile-div">
@@ -36,6 +37,16 @@
 		</div>
 
 		{# SECTION (contient tous les posts) #}
+		{#
+		La classe .row crée une ligne dans un système de grille (Grid)
+		
+		- Les éléments portant la classe .col sont des cases dans une ligne
+		- La classe .row ajoute également les propriétés "display: flex" et "flex-wrap: wrap" afin que les enfants soient
+		alignés horizontalement et passent à la ligne si besoin, ainsi que des espacements (gutter) pour que les colonnes (.col)
+		soient espacées proprement.
+
+		Attention : un conteneur portant la classe ".row" doit contenir uniquement des éléments portant la classe ".col"
+ 		#}
 		<section class="row justify-content-center mb-2">
 			<h1 class="mb-5 mt-5">Vos publications</h1>
 			{% for post in posts %}
