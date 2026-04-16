@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
-use App\Form\UserFormType;
+use App\Entity\User;
 use App\Form\UserSettingsType;
 use App\Repository\PostRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -13,17 +12,29 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/user', name: 'user_')]
 final class UserController extends AbstractController
 {
+    // #[IsGranted('ROLE_USER')] : Cette route n'est accessible que si l'utilisateur est connecté
+    /*
+    La ligne "#[CurrentUser] User $user" va récupérer toutes les informations de l'utilisateur actuellement connecté :
+
+    - User $user : injecte l'objet (l'entité) User dans la variable $user.
+    - #[CurrentUser] : est un attribut PHP qui va me permettre de récupérer toutes les informations de l'utilisateur connecté
+    */
+    #[IsGranted('ROLE_USER')]
     #[Route('', name: 'index')]
-    public function index(PostRepository $repo): Response
+    public function index(PostRepository $repo, #[CurrentUser] User $user): Response
     {
-        // Refactor cette méthode pour trouver uniquement le contenu de l'utilisateur connecté
+        $user_id = $user->getId(); // Récupère l'identifiant de l'utilisateur actuellement connecté
+        $posts = $repo->findBy(['my_user' => $user_id]); // Récupère tous les posts associés à l'utilisateur connecté
+
         return $this->render('user/index.html.twig', [
-            'posts' => $repo->findAll(),
+            'posts' => $posts,
         ]);
     }
 
