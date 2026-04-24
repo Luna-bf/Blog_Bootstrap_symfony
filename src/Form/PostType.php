@@ -23,6 +23,8 @@ class PostType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'Titre de la publication',
 
+                'required' => true,
+
                 // Attributs de la div générée par $builder
                 'row_attr' => [
                     'class' => 'mb-4'
@@ -40,6 +42,8 @@ class PostType extends AbstractType
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu',
+
+                'required' => true,
 
                 // Attributs de la div générée par $builder
                 'row_attr' => [
@@ -69,7 +73,7 @@ class PostType extends AbstractType
                 'mapped' => false,
 
                 // Pour ne pas re-publier l'image à chaque fois que l'on modifie un post
-                'required' => false,
+                'required' => $options['required'],
 
                 // Attributs de la div générée par $builder
                 'row_attr' => [
@@ -98,6 +102,8 @@ class PostType extends AbstractType
                 'choice_label' => 'name',
 
                 'label' => 'Catégorie',
+
+                'required' => true,
 
                 // Attributs de la div générée par $builder
                 'row_attr' => [
@@ -135,5 +141,11 @@ class PostType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Post::class,
         ]);
+        /*
+        Définition d'une nouvelle option nommée "is_file_required" grâce à la méthode setRequired() que je vais utiliser dans le
+        contrôleur "PostController" pour définir une valeur différente (true ou false) pour le formulaire de création et le
+        formulaire de modification de post
+        */
+        $resolver->setRequired('is_file_required');
     }
 }
