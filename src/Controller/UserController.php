@@ -32,12 +32,18 @@ final class UserController extends AbstractController
     {
         $user_id = $user->getId(); // Récupère l'identifiant de l'utilisateur actuellement connecté
         $posts = $repo->findBy(['my_user' => $user_id]); // Récupère tous les posts associés à l'utilisateur connecté
+        $message = "";
+
+        if($posts === []) {
+            $message = "Vous n'avez aucune publication.";
+        }
 
         return $this->render('user/index.html.twig', [
             'posts' => $posts,
+            'message' => $message,
         ]);
     }
-
+/*
     #[Route('/settings', name: 'settings')]
     public function settings(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads/profile_pictures')] string $profilePicturesDirectory, #[Autowire('%kernel.project_dir%/public/uploads/banners')] string $bannersDirectory): Response
     {
@@ -71,7 +77,7 @@ final class UserController extends AbstractController
                 /* Enfin, je crée le nom définitif de l'image en utilisant la valeur de la variable $safeFileName, j'inclus
                 un identifiant unique grâce à la fonction "uniqid()", puis je précise l'extension de l'image grâce à la fonction
                 "guessExtension()" appliquée sur la variable $image.
-                */
+                
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $profilePicture->guessExtension();
 
                 try {
@@ -95,7 +101,7 @@ final class UserController extends AbstractController
                 /* Enfin, je crée le nom définitif de l'image en utilisant la valeur de la variable $safeFileName, j'inclus
                 un identifiant unique grâce à la fonction "uniqid()", puis je précise l'extension de l'image grâce à la fonction
                 "guessExtension()" appliquée sur la variable $image.
-                */
+                
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $banner->guessExtension();
 
                 try {
@@ -124,4 +130,5 @@ final class UserController extends AbstractController
             'editUserForm' => $editUserForm
         ]);
     }
+    */
 }
