@@ -9,22 +9,22 @@
     margin-top: 9px;
 }
 
-#profile-nav li>figure {
+#profile-nav li>.profile-picture {
     width: 7% !important;
+    height: 13%;
     position: absolute;
-    top: 350px;
-    margin-left: 20px;
+    top: 338px;
+    margin-left: 18px;
+    background-size: cover;
+    border: 4px solid #fff;
 }
 
-// #profile-nav li>div {
-//     width: 7%;
-//     min-height: 6.7em;
+// Ancien style pour la photo de profil
+// #profile-nav li>figure {
+//     width: 7% !important;
 //     position: absolute;
-//     top: 345px;
+//     top: 350px;
 //     margin-left: 20px;
-//     background-size: cover;
-//     background-position: center;
-//     border: 6px solid #fff;
 // }
 
 #profile-nav figure>img {
