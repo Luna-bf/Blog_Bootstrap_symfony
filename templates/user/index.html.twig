@@ -7,7 +7,7 @@
 	{# Début MAIN #}
 	{# La classe container permet de créer un conteneur responsive #}
 	<main class="container m-auto">
-		<div class="banner" style="background-image:url('{{ asset('uploads/banners/' ~ app.user.bannerName) }}')"></div>
+		<div class="banner" style="background-image:url('{{ asset('uploads/user_images/banners/' ~ app.user.bannerName) }}')"></div>
 		<div class="d-flex flex-row justify-content-between mt-2" id="profile-div">
 			<ul class="list-unstyled d-flex flex-row justify-content-center justify-content-between" id="profile-nav">
 				<li>
@@ -15,7 +15,7 @@
 					si le fichier provient d'une publication portant la catégorie "World", je vais stocker son image dans un
 					dossier nommé "world", si c'est une photo de profil, je vais le stocker dans un dossier "profilePictures"... #}
 					{# <figure><img src="/assets/imgs/paysage.png" alt="Photo de profil" class="w-100 rounded-circle"></figure> #}
-					<div class="rounded-circle profile-picture" style="background-image:url('{{ asset('uploads/profile_pictures/' ~ app.user.profilePictureName) }}')"></div>
+					<div class="rounded-circle profile-picture" style="background-image:url('{{ asset('uploads/user_images/profile_pictures/' ~ app.user.profilePictureName) }}')"></div>
 				</li>
 				{% if not is_granted("ROLE_USER") %}
 					<li class="fs-4 align-items-center username-profile">Nom d'utilisateur</li>
