@@ -46,7 +46,10 @@ final class PostController extends AbstractController
         $post = new Post;
 
         // Initialisation du formulaire
-        $createPostForm = $this->createForm(PostType::class, $post);
+        $createPostForm = $this->createForm(PostType::class, $post, [
+            // Ici, l'input "image_name" est requis pour envoyer le formulaire, contrairement à la méthode updatePost()
+            'is_file_required' => true
+        ]);
 
         // Traitement du formulaire
         $createPostForm->handleRequest($request);
@@ -114,7 +117,10 @@ final class PostController extends AbstractController
         $message = ""; // Initialisation de la variable contenant le message d'erreur pour les fichiers (FileException)
 
         // Initialisation du formulaire
-        $updatePostForm = $this->createForm(PostType::class, $post); // $post représente une ligne récupérée dans la BDD
+        $updatePostForm = $this->createForm(PostType::class, $post, [ // $post représente une ligne récupérée dans la BDD
+            // Ici, l'input "image_name" n'est pas requis pour envoyer le formulaire, contrairement à la méthode createPost()
+            'is_file_required' => false
+        ]);
 
         // Traitement du formulaire
         $updatePostForm->handleRequest($request);
