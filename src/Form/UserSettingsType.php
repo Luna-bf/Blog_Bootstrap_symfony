@@ -157,7 +157,7 @@ class UserSettingsType extends AbstractType
 
                 // Attributs de l'input
                 'attr' => [
-                    'class' => 'btn align-self-start mt-3 w-50 m-auto text-light sign-in',
+                    'class' => 'btn align-self-start mt-3 w-50 bg-dark text-light sign-in',
                 ]
             ])
         ;
