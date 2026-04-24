@@ -167,19 +167,29 @@ final class PostController extends AbstractController
 
     // {id} est un paramètre dynamique : il va récupérer l'identifiant associé au post à modifier pour afficher le formulaire adéquat
     #[Route('/post/{id}/delete', name: 'delete')]
-    public function deletePost(PostRepository $post, Request $request, EntityManagerInterface $em): Response
+    public function deletePost(Post $post, Request $request, EntityManagerInterface $em): Response
     {
         // Récupère la valeur de l'input nommé "token" (le jeton CSRF)
         $submittedToken = $request->getPayload()->get('token');
 
-        // Vérifie si le jeton CSRF nommé "delete-post" correspond à la valeur récupérée par la variable $submittedToken
+        // Récupère l'image du post
+        $postImage = $post->getImageName();
+
+        // // Vérifie si le jeton CSRF nommé "delete-post" correspond à la valeur récupérée par la variable $submittedToken
         if ($this->isCsrfTokenValid('delete-post', $submittedToken)) {
+
+            if ($postImage) {
+                $image = $this->getParameter("images_directory") . '/' . $post->getImageName();
+
+                if (file_exists($image)) {
+                    unlink($image);
+                }
+            }
 
             $em->remove($post);
             $em->flush();
 
             $this->addFlash('success', 'La publication a été supprimée avec succès.');
-
             return $this->redirectToRoute('user_index');
         } else {
             throw new Exception("Le jeton CSRF est invalide.");
