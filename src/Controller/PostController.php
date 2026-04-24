@@ -101,6 +101,7 @@ final class PostController extends AbstractController
             $em->persist($completePost); // Prépare la requête (ici, la création d'un nouveau post)
             $em->flush(); // Exécute la requête préparée
 
+            $this->addFlash('success', 'La publication a été créée avec succès.');
             return $this->redirectToRoute('user_index');
         }
 
@@ -161,7 +162,8 @@ final class PostController extends AbstractController
 
             $em->persist($post);
             $em->flush(); // Exécute la requête préparée
-
+            
+            $this->addFlash('success', 'La publication a été modifiée avec succès.');
             return $this->redirectToRoute('user_index');
         }
 
