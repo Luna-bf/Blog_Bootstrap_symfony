@@ -48,10 +48,10 @@
 		Attention : un conteneur portant la classe ".row" doit contenir uniquement des éléments portant la classe ".col"
  		#}
 		<section class="row justify-content-center mb-2">
-			<h1 class="mb-5 mt-5">Vos publications</h1>
+			<h1 class="my-3">Vos publications</h1>
 			{% for post in posts %}
 				{# ARTICLE (conteneur parent de l'un des posts) #}
-				<article class="col-md-6 d-flex post-article" id="{{ post.id }}">
+				<article class="col-md-6 d-flex post-article mt-5" id="{{ post.id }}">
 					{# DIV (conteneur enfant du post) #}
 					<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative post-div">
 						{# DIV (contenu du post) #}
@@ -82,6 +82,7 @@
 					{# FIN DIV (conteneur enfant du post) #}
 				</article>
 			{% endfor %}
+			<p class="text-center my-5 fs-5">{{ message }}</p>
 		</section>
 		{# FIN SECTION #}
 	</main>
