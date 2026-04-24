@@ -24,7 +24,7 @@
 				{% endif %}
 			</ul>
 			<div class="d-flex flex-row align-items-center" id="settings-link">
-				<a class="btn btn-sm btn-outline-secondary" href="{{ path('user_settings') }}">
+				<a class="btn btn-sm btn-outline-secondary" href="#">
 					<i class="fa-solid fa-gear"></i>Paramètres du profil</a>
 				{# <a href="{{ path('app_logout') }}" class="ms-3 btn btn-outline-danger text-decoration-none" id="logout">
 																	<i class="fa-solid fa-arrow-right-from-bracket"></i>Se déconnecter</a> #}
@@ -49,6 +49,14 @@
  		#}
 		<section class="row justify-content-center mb-2">
 			<h1 class="my-3">Vos publications</h1>
+			
+			{# Flash message (succès) #}
+			{% for message in app.flashes('success') %}
+				<p class="text-center mt-2 fs-5">
+					{{ message }}
+				</p>
+			{% endfor %}
+
 			{% for post in posts %}
 				{# ARTICLE (conteneur parent de l'un des posts) #}
 				<article class="col-md-6 d-flex post-article mt-5" id="{{ post.id }}">
