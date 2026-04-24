@@ -43,15 +43,15 @@ final class UserController extends AbstractController
             'message' => $message,
         ]);
     }
-/*
+    
     #[Route('/settings', name: 'settings')]
     public function settings(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads/profile_pictures')] string $profilePicturesDirectory, #[Autowire('%kernel.project_dir%/public/uploads/banners')] string $bannersDirectory): Response
     {
         // Je récupère les informations de l'utilisateur connecté
-        $userForm = $this->getUser();
+        $user = $this->getUser();
 
         // Initialisation du formulaire
-        $editUserForm = $this->createForm(UserSettingsType::class, $userForm);
+        $editUserForm = $this->createForm(UserSettingsType::class, $user);
 
         // Traitement du formulaire
         $editUserForm->handleRequest($request);
@@ -60,11 +60,11 @@ final class UserController extends AbstractController
         if ($editUserForm->isSubmitted() && $editUserForm->isValid()) {
 
             // Récupère la valeur de l'input "profile_picture_name" et la stocke dans la variable $profilePicture
-            $profilePicture = $editUserForm->get('profilePictureName')->getData();
-            $banner = $editUserForm->get('bannerName')->getData();
+            $profilePicture = $editUserForm->get('profile_picture_name')->getData();
+            $banner = $editUserForm->get('banner_name')->getData();
 
-            // Je récupère toutes les données du formulaire (rempli) et les injectes dans l'objet $post
-            $completePost = $editUserForm->getData();
+            // Je récupère toutes les données du formulaire (rempli) et les injectes dans l'objet $user
+            $completeProfile = $editUserForm->getData();
 
             // Si la valeur du champ de saisie "image_name" (stockée dans la variable $profilePicture) n'est pas vide...
             if ($profilePicture) {
@@ -77,7 +77,7 @@ final class UserController extends AbstractController
                 /* Enfin, je crée le nom définitif de l'image en utilisant la valeur de la variable $safeFileName, j'inclus
                 un identifiant unique grâce à la fonction "uniqid()", puis je précise l'extension de l'image grâce à la fonction
                 "guessExtension()" appliquée sur la variable $image.
-                
+                */
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $profilePicture->guessExtension();
 
                 try {
@@ -88,7 +88,7 @@ final class UserController extends AbstractController
                 }
 
                 // Stocke le nom de l'image dans la BDD
-                $editUserForm->setProfilePictureName($newFilename);
+                $completeProfile->setProfilePictureName($newFilename);
             }
 
             if ($banner) {
@@ -101,7 +101,7 @@ final class UserController extends AbstractController
                 /* Enfin, je crée le nom définitif de l'image en utilisant la valeur de la variable $safeFileName, j'inclus
                 un identifiant unique grâce à la fonction "uniqid()", puis je précise l'extension de l'image grâce à la fonction
                 "guessExtension()" appliquée sur la variable $image.
-                
+                */
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $banner->guessExtension();
 
                 try {
@@ -112,17 +112,13 @@ final class UserController extends AbstractController
                 }
 
                 // Stocke le nom de l'image dans la BDD
-                $editUserForm->setBannerName($newFilename);
+                $completeProfile->setBannerName($newFilename);
             }
 
-            // J'ajoute la date de création (setter) au champ createdAt du formulaire (caché)
-            $completePost->setCreatedAt(new \DateTimeImmutable());
-
-            $user = $this->getUser(); // Je récupère les données l'utilisateur connecté
-            $completePost->setMyUser($user); // Puis j'associe les données de l'utilisateur connecté à la publication (setter)
-
-            $em->persist($completePost); // Prépare la requête (ici, la création d'un nouveau post)
+            $em->persist($completeProfile); // Prépare la requête (ici, la création d'un nouveau post)
             $em->flush(); // Exécute la requête préparée
+            
+            return $this->redirectToRoute('user_index');
         }
 
         // Refactor cette méthode pour récupérer les informations de l'utilisateur connecté
@@ -130,5 +126,4 @@ final class UserController extends AbstractController
             'editUserForm' => $editUserForm
         ]);
     }
-    */
 }
