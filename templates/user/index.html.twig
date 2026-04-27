@@ -15,10 +15,6 @@
 		<div class="d-flex flex-row justify-content-between mt-2" id="profile-div">
 			<ul class="list-unstyled d-flex flex-row justify-content-center justify-content-between" id="profile-nav">
 				<li>
-					{# Voir si je peux définir plusieurs dossier d'upload d'image et si je peux mettre une condition, exemple :
-					si le fichier provient d'une publication portant la catégorie "World", je vais stocker son image dans un
-					dossier nommé "world", si c'est une photo de profil, je vais le stocker dans un dossier "profilePictures"... #}
-					{# <figure><img src="/assets/imgs/paysage.png" alt="Photo de profil" class="w-100 rounded-circle"></figure> #}
 					{% if app.user.profilePictureName is same as(null) %}
 						<div class="rounded-circle profile-picture" style="background-image:url('{{ asset('/assets/imgs/profile/default-pfp.png') }}')"></div>
 					{% else %}
