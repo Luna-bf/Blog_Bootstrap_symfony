@@ -15,21 +15,10 @@
     position: absolute;
     top: 338px;
     margin-left: 18px;
+    object-fit: cover; // Pour que la photo remplisse tout le conteneur
     background-size: cover;
     background-position: center;
-    border: 4px solid #fff;
-}
-
-// Ancien style pour la photo de profil
-// #profile-nav li>figure {
-//     width: 7%;
-//     position: absolute;
-//     top: 350px;
-//     margin-left: 20px;
-// }
-
-#profile-nav figure>img {
-    border: 6px solid #fff;
+    border: 3.5px solid #fff;
 }
 
 .username-profile {
