@@ -35,9 +35,6 @@ class Post
     #[ORM\JoinColumn(nullable: false)]
     private ?User $my_user = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -111,18 +108,6 @@ class Post
     public function setMyUser(?User $my_user): static
     {
         $this->my_user = $my_user;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }
