@@ -30,8 +30,9 @@ final class PostController extends AbstractController
     }
 
     #[Route('/post/{id}', name: 'show')]
-    public function showPost(Post $post) {
-        
+    public function showPost(Post $post)
+    {
+
         return $this->render('post/showPost.html.twig', [
             'post' => $post
         ]);
@@ -115,6 +116,8 @@ final class PostController extends AbstractController
     #[Route('/post/forms/update/{id}', name: 'update')]
     public function updatePost(Post $post, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads/images')] string $imagesDirectory): Response
     {
+        $oldImage = $this->getParameter("images_directory") . '/' . $post->getImageName(); // Récupère l'ancienne image du post (l'image actuelle)
+        $newImage = ""; // Initialisation de la variable qui va récupérer la nouvelle image (si il y en a une)
         $message = ""; // Initialisation de la variable contenant le message d'erreur pour les fichiers (FileException)
 
         // Initialisation du formulaire
@@ -123,22 +126,23 @@ final class PostController extends AbstractController
             'is_file_required' => false
         ]);
 
-        // Traitement du formulaire
+        // Traitement du formulaire (injecte les nouvelles valeurs à la variable $post si il y en a)
         $updatePostForm->handleRequest($request);
 
         // Si le formulaire est envoyé (isSubmitted) et que ces données sont valides (isValid())
         if ($updatePostForm->isSubmitted() && $updatePostForm->isValid()) {
 
-            // Récupère la valeur de l'input "image_name" et la stocke dans la variable $image
-            $image = $updatePostForm->get('image_name')->getData();
+            $newImage = $updatePostForm->get('image_name')->getData(); // Je récupère la nouvelle image (si il y en a une)
 
-            // Je récupère toutes les données du formulaire (rempli) et les injectes dans l'objet $post
-            $completePost = $updatePostForm->getData();
+            /*
+            J'ajoute ensuite une condition : si l'utilisateur envoie une nouvelle image dans le formulaire, je supprime
+            l'ancienne ($oldImage) et la remplace par la nouvelle ($newImage)
+            */
+            if ($newImage) {
+                unlink($oldImage);
 
-            // Si la valeur du champ de saisie "image_name" (stockée dans la variable $image) n'est pas vide...
-            if ($image) {
-                // Je récupère le nom original de l'image
-                $originalImageName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                // Je récupère le nom original de la nouvelle image
+                $originalImageName = pathinfo($newImage->getClientOriginalName(), PATHINFO_FILENAME);
 
                 // Puis j'utilise un slug pour créer un nom sécurisé
                 $safeFilename = $slugger->slug($originalImageName);
@@ -146,23 +150,23 @@ final class PostController extends AbstractController
                 /* Enfin, je crée le nom définitif de l'image en utilisant la valeur de la variable $safeFileName, j'inclus
                 un identifiant unique grâce à la fonction "uniqid()", puis je précise l'extension de l'image grâce à la fonction
                 "guessExtension()" appliquée sur la variable $image.
-                */
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
+                */                
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $newImage->guessExtension();
 
                 try {
                     // Envoie l'image dans le dossier adéquat
-                    $image->move($imagesDirectory, $newFilename);
+                    $newImage->move($imagesDirectory, $newFilename);
                 } catch (FileException $error) {
                     $message = $error;
                 }
 
-                // Stocke le nom de l'image dans la BDD
+                // Stocke le nom de la nouvelle image dans la BDD
                 $post->setImageName($newFilename);
             }
 
             $em->persist($post);
             $em->flush(); // Exécute la requête préparée
-            
+
             $this->addFlash('success', 'La publication a été modifiée avec succès.');
             return $this->redirectToRoute('user_index');
         }
@@ -183,17 +187,21 @@ final class PostController extends AbstractController
         // Récupère l'image du post
         $postImage = $post->getImageName();
 
-        // // Vérifie si le jeton CSRF nommé "delete-post" correspond à la valeur récupérée par la variable $submittedToken
+        // Vérifie si le jeton CSRF nommé "delete-post" correspond à la valeur récupérée par la variable $submittedToken
         if ($this->isCsrfTokenValid('delete-post', $submittedToken)) {
 
+            // Si le post contient un nom d'image
             if ($postImage) {
+                // Je récupère son chemin d'accès (nom du dossier et de l'image associée au post) et le stocke dans la variable $image
                 $image = $this->getParameter("images_directory") . '/' . $post->getImageName();
 
+                // Si le chemin de l'image récupérée correspond à l'une des images du dossier
                 if (file_exists($image)) {
-                    unlink($image);
+                    unlink($image); // Alors je la supprime
                 }
             }
 
+            // Une fois cela fait, je supprime entièrement le post
             $em->remove($post);
             $em->flush();
 
