@@ -73,7 +73,7 @@ class PostType extends AbstractType
                 'mapped' => false,
 
                 // Pour ne pas re-publier l'image à chaque fois que l'on modifie un post
-                'required' => $options['required'],
+                'required' => $options['is_file_required'],
 
                 // Attributs de la div générée par $builder
                 'row_attr' => [
