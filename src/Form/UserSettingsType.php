@@ -152,12 +152,12 @@ class UserSettingsType extends AbstractType
 
                 // Attributs de la div générée par $builder
                 'row_attr' => [
-                    'class' => 'mb-4'
+                    'class' => 'mb-4 d-flex justify-content-center'
                 ],
 
                 // Attributs de l'input
                 'attr' => [
-                    'class' => 'btn align-self-start mt-3 w-50 bg-dark text-light sign-in',
+                    'class' => 'btn mt-3 py-2 w-50 bg-dark text-light ',
                 ]
             ])
         ;
