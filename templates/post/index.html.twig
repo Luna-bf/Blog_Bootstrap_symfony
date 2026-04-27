@@ -9,12 +9,11 @@
 		<main
 			class="container">
 			{# <NAV> (catégories) #}
-			<nav
-				class="border-bottom">
+			<nav class="border-bottom">
 				{# Récupère toutes les catégories dans la BDD #}
 				<ol class="list-unstyled d-flex align-items-center justify-content-between flex-wrap my-2">
 					{% for category in categories %}
-						<li id="#" class="mx-3 my-2">{{ category.name }}</li>
+						<li class="mx-3 my-2"><a href="#" class="text-decoration-none text-black">{{ category.name }}</a></li>
 					{% endfor %}
 				</ol>
 			</nav>
