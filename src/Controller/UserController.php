@@ -34,7 +34,7 @@ final class UserController extends AbstractController
         $posts = $repo->findBy(['my_user' => $user_id]); // Récupère tous les posts associés à l'utilisateur connecté
         $message = "";
 
-        if($posts === []) {
+        if ($posts === []) {
             $message = "Vous n'avez aucune publication.";
         }
 
@@ -43,12 +43,21 @@ final class UserController extends AbstractController
             'message' => $message,
         ]);
     }
-    
+
+    /*
+    La ligne "#[CurrentUser] User $user" va récupérer toutes les informations de l'utilisateur actuellement connecté :
+
+    - User $user : injecte l'objet User (l'entité) dans la variable $user.
+    - #[CurrentUser] : est un attribut PHP qui va me permettre de récupérer toutes les informations de l'utilisateur connecté
+    */
     #[Route('/settings', name: 'settings')]
-    public function settings(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads/user_images/profile_pictures')] string $profilePicturesDirectory, #[Autowire('%kernel.project_dir%/public/uploads/user_images/banners')] string $bannersDirectory): Response
+    public function settings(#[CurrentUser] User $user, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads/user_images/profile_pictures')] string $profilePicturesDirectory, #[Autowire('%kernel.project_dir%/public/uploads/user_images/banners')] string $bannersDirectory): Response
     {
-        // Je récupère les informations de l'utilisateur connecté
-        $user = $this->getUser();
+        // Initialisation des variables (photo de profil)
+        /* J'ai ajouté un nouveau paramètre dans le fichier services.yaml nommé "user_images_directory", qui va contenir toutes
+        les images associées à l'utilisateur */
+        $oldProfilePicture = $this->getParameter("user_images_directory") . '/profile_pictures/' . $user->getProfilePictureName(); // Récupère la photo de profil actuelle
+        $newProfilePicture = "";
 
         // Initialisation du formulaire
         $editUserForm = $this->createForm(UserSettingsType::class, $user);
@@ -56,68 +65,41 @@ final class UserController extends AbstractController
         // Traitement du formulaire
         $editUserForm->handleRequest($request);
 
-        // Si le formulaire est envoyé (isSubmitted) et que ces données sont valides (isValid())
+        // Si le formulaire est envoyé (isSubmitted) et que ses données sont valides (isValid())
         if ($editUserForm->isSubmitted() && $editUserForm->isValid()) {
-
-            // Récupère la valeur de l'input "profile_picture_name" et la stocke dans la variable $profilePicture
-            $profilePicture = $editUserForm->get('profile_picture_name')->getData();
-            $banner = $editUserForm->get('banner_name')->getData();
-
-            // Je récupère toutes les données du formulaire (rempli) et les injectes dans l'objet $user
-            $completeProfile = $editUserForm->getData();
-
-            // Si la valeur du champ de saisie "image_name" (stockée dans la variable $profilePicture) n'est pas vide...
-            if ($profilePicture) {
-                // Je récupère le nom original de l'image
-                $originalImageName = pathinfo($profilePicture->getClientOriginalName(), PATHINFO_FILENAME);
-
-                // Puis j'utilise un slug pour créer un nom sécurisé
-                $safeFilename = $slugger->slug($originalImageName);
-
-                /* Enfin, je crée le nom définitif de l'image en utilisant la valeur de la variable $safeFileName, j'inclus
-                un identifiant unique grâce à la fonction "uniqid()", puis je précise l'extension de l'image grâce à la fonction
-                "guessExtension()" appliquée sur la variable $image.
-                */
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $profilePicture->guessExtension();
-
-                try {
-                    // Envoie l'image dans le dossier adéquat
-                    $profilePicture->move($profilePicturesDirectory, $newFilename);
-                } catch (FileException $e) {
-                    $message = $e;
-                }
-
-                // Stocke le nom de l'image dans la BDD
-                $completeProfile->setProfilePictureName($newFilename);
-            }
-
-            if ($banner) {
-                // Je récupère le nom original de l'image
-                $originalImageName = pathinfo($banner->getClientOriginalName(), PATHINFO_FILENAME);
-
-                // Puis j'utilise un slug pour créer un nom sécurisé
-                $safeFilename = $slugger->slug($originalImageName);
-
-                /* Enfin, je crée le nom définitif de l'image en utilisant la valeur de la variable $safeFileName, j'inclus
-                un identifiant unique grâce à la fonction "uniqid()", puis je précise l'extension de l'image grâce à la fonction
-                "guessExtension()" appliquée sur la variable $image.
-                */
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $banner->guessExtension();
-
-                try {
-                    // Envoie l'image dans le dossier adéquat
-                    $banner->move($bannersDirectory, $newFilename);
-                } catch (FileException $e) {
-                    $message = $e;
-                }
-
-                // Stocke le nom de l'image dans la BDD
-                $completeProfile->setBannerName($newFilename);
-            }
-
-            $em->persist($completeProfile); // Prépare la requête (ici, la création d'un nouveau post)
-            $em->flush(); // Exécute la requête préparée
             
+            // Récupère la valeur de l'input "profile_picture_name" et la stocke dans la variable $profilePicture
+            $newProfilePicture = $editUserForm->get('profile_picture_name')->getData();
+
+            if ($newProfilePicture) {
+                unlink($oldProfilePicture);
+
+                // Je récupère le nom original de l'image
+                $originalImageName = pathinfo($newProfilePicture->getClientOriginalName(), PATHINFO_FILENAME);
+
+                // Puis j'utilise un slug pour créer un nom sécurisé
+                $safeFilename = $slugger->slug($originalImageName);
+
+                /* Enfin, je crée le nom définitif de l'image en utilisant la valeur de la variable $safeFileName, j'inclus
+                un identifiant unique grâce à la fonction "uniqid()", puis je précise l'extension de l'image grâce à la fonction
+                "guessExtension()" appliquée sur la variable $image.
+                */
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $newProfilePicture->guessExtension();
+
+                try {
+                    // Envoie l'image dans le dossier adéquat
+                    $newProfilePicture->move($profilePicturesDirectory, $newFilename);
+                } catch (FileException $e) {
+                    $message = $e;
+                }
+
+                // Stocke le nom de l'image dans la BDD
+                $user->setProfilePictureName($newFilename);
+            }
+
+            $em->persist($user); // Prépare la requête
+            $em->flush(); // Exécute la requête préparée
+
             return $this->redirectToRoute('user_index');
         }
 
