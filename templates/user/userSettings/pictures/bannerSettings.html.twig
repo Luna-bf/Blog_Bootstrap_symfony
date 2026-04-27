@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paramètres du compte - Blog Bootstrap
+{% endblock %}
+
+{% block body %}
+	<body class="settings-form">
+		<div class="d-flex flex-column form-div">
+			{{ form_start(editUserForm, { 'attr': {'class': 'w-50 d-flex flex-column justify-content-center rounded-3'} }) }}
+			<h1 class="mb-5 text-center text-dark">Modifier la bannière de profil</h1>
+
+			{{ form_row(editUserForm.banner_name) }}
+			{{ form_row(editUserForm._token) }}
+            {{ form_row(editUserForm.submit) }}
+
+			{{ form_errors(editUserForm, { 'attr': {'class': 'error-msg'} }) }}
+
+			{{ form_end(editUserForm, {'render_rest': false}) }}
+		</div>
+	</body>
+{% endblock %}
+
+{% block footer %}
+	<footer class="bg-dark text-light d-flex align-items-center justify-content-center position-absolute bottom-0">
+		<p class="m-0 text-center">Travail réalisé par
+			<a href="https://github.com/Luna-bf" target="_blank" class="text-decoration-none">Luna</a>.</p>
+	</footer>
+{% endblock %}
