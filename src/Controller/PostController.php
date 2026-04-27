@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/', name: 'post_')]
@@ -38,6 +39,7 @@ final class PostController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/post/forms/create', name: 'create')]
     public function createNewPost(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads/images')] string $imagesDirectory): Response
     {
@@ -112,6 +114,7 @@ final class PostController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
     // {id} est un paramètre dynamique : il va récupérer l'identifiant associé au post à modifier pour afficher le formulaire adéquat
     #[Route('/post/forms/update/{id}', name: 'update')]
     public function updatePost(Post $post, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads/images')] string $imagesDirectory): Response
@@ -150,7 +153,7 @@ final class PostController extends AbstractController
                 /* Enfin, je crée le nom définitif de l'image en utilisant la valeur de la variable $safeFileName, j'inclus
                 un identifiant unique grâce à la fonction "uniqid()", puis je précise l'extension de l'image grâce à la fonction
                 "guessExtension()" appliquée sur la variable $image.
-                */                
+                */
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $newImage->guessExtension();
 
                 try {
@@ -177,6 +180,7 @@ final class PostController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
     // {id} est un paramètre dynamique : il va récupérer l'identifiant associé au post à modifier pour afficher le formulaire adéquat
     #[Route('/post/{id}/delete', name: 'delete')]
     public function deletePost(Post $post, Request $request, EntityManagerInterface $em): Response
