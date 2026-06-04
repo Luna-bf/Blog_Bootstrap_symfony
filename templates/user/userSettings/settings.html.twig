@@ -5,20 +5,28 @@
 
 {% block body %}
 	<body class="settings-form">
-		<div class="d-flex flex-column form-div" id="create-post-div">
+		<div class="d-flex flex-column form-div">
 			{{ form_start(editUserForm, { 'attr': {'class': 'w-50 d-flex flex-column justify-content-center rounded-3'} }) }}
 			<h1 class="mb-5 text-center text-dark">Modifier mon compte</h1>
 
-			{{ form_row(editUserForm.email) }}
-			{{ form_row(editUserForm.password) }}
 			{{ form_row(editUserForm.username) }}
 			{{ form_row(editUserForm.profile_picture_name) }}
 			{{ form_row(editUserForm.banner_name) }}
+			{{ form_row(editUserForm._token) }}
+
 			{{ form_row(editUserForm.submit) }}
 
 			{{ form_errors(editUserForm, { 'attr': {'class': 'error-msg'} }) }}
 
-			{{ form_end(editUserForm) }}
+			{{ form_end(editUserForm, { render_rest: false }) }}
 		</div>
+
+		<section class="d-flex flex-column align-items-center my-5">
+			<h2 class="mb-5">Autres actions</h2>
+			<ul class="list-unstyled d-flex flex-row">
+				<li><a href="{{ path('user_email_reset') }}">Modifier l'adresse mail</a></li>
+				<li class="ms-4"><a href="{{ path('user_password_reset') }}">Modifier le mot de passe</a></li>
+			</ul>
+		</section>
 	</body>
 {% endblock %}
