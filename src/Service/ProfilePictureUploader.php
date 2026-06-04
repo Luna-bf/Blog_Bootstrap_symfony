@@ -5,12 +5,11 @@ namespace App\Service;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Mime\Part\File;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ProfilePictureUploader {
     public function __construct(
-        private string $profilePicturesDirectory,
+        private string $targetDirectory,
         private SluggerInterface $slugger,
     ) {
     }
@@ -32,6 +31,6 @@ class ProfilePictureUploader {
 
     public function getTargetDirectory(): string
     {
-        return $this->profilePicturesDirectory;
+        return $this->targetDirectory;
     }
 }

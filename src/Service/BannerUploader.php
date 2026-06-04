@@ -9,7 +9,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class BannerUploader {
     public function __construct(
-        private string $bannersDirectory,
+        private string $targetDirectory,
         private SluggerInterface $slugger,
     ) {
     }
@@ -31,6 +31,6 @@ class BannerUploader {
 
     public function getTargetDirectory(): string
     {
-        return $this->bannersDirectory;
+        return $this->targetDirectory;
     }
 }
