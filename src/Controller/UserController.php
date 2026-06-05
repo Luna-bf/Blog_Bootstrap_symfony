@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ChangePasswordFormType;
 use App\Form\UserSettingsType;
 use App\Repository\PostRepository;
 use App\Service\BannerUploader;
@@ -11,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -83,7 +85,7 @@ final class UserController extends AbstractController
                     // Stocke le nom du fichier dans la BDD
                     $user->setProfilePictureName($newFilename);
 
-                // Sinon, si je récupère un fichier :
+                    // Sinon, si je récupère un fichier :
                 } else {
                     unlink($oldProfilePicture);
 
@@ -142,16 +144,30 @@ final class UserController extends AbstractController
     }
 
     #[Route('/settings/passwordReset', name: 'password_reset')]
-    public function passwordReset(#[CurrentUser] User $user, Request $request, EntityManagerInterface $em): Response
+    public function passwordReset(#[CurrentUser] User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $em): Response
     {
         // Initialisation du formulaire
-        $editUserForm = $this->createForm(UserSettingsType::class, $user);
+        $resetPasswordForm = $this->createForm(ChangePasswordFormType::class, $user);
 
         // Traitement du formulaire
-        $editUserForm->handleRequest($request);
+        $resetPasswordForm->handleRequest($request);
 
-        return $this->render('user/userSettings/passwordReset.html.twig', [
-            'editUserForm' => $editUserForm
+        if ($resetPasswordForm->isSubmitted() && $resetPasswordForm->isValid()) {
+
+            $plainPassword = $resetPasswordForm->get('plainPassword')->getData();
+
+            // Stocke une version hachée (sécurisée) du mot de passe dans la base de données
+            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+
+            $em->flush();
+
+            $this->addFlash('success', 'Mot de passe modifié avec succès.');
+
+            return $this->redirectToRoute('user_settings');
+        }
+
+        return $this->render('reset_password/reset.html.twig', [
+            'resetPasswordForm' => $resetPasswordForm
         ]);
     }
 }
