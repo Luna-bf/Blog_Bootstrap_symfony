@@ -22,7 +22,7 @@
 			{{ form_row(resetPasswordForm._token) }}
 
 			<div class="d-flex align-items-center text-danger list-unstyled error-message">
-				{{ form_errors(resetPasswordForm.plainPassword) }}
+				{{ form_errors(resetPasswordForm.plainPassword.first) }}
 			</div>
 
 			{{ form_row(resetPasswordForm.submit, {'row_attr': {'class': 'my-4 d-flex justify-content-center'}, 'attr': {'class': 'btn mt-3 py-2 w-50 bg-dark text-light'}}) }}
