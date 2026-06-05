@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class PostType extends AbstractType
 {
@@ -23,44 +24,26 @@ class PostType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'Titre de la publication',
 
-                'required' => true,
-
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4'
+                'constraints' => [
+                    new NotBlank(
+                        message: 'Veuillez définir un titre.',
+                    )
                 ],
-
-                // Attributs du label
-                'label_attr' => [
-                    'class' => 'form-label text-white'
-                ],
-
-                // Attributs de l'input
-                'attr' => [
-                    'class' => 'form-control',
-                ]
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu',
 
-                'required' => true,
-
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4'
-                ],
-
-                // Attributs du label
-                'label_attr' => [
-                    'class' => 'form-label text-white'
-                ],
-
                 // Attributs de l'input
                 'attr' => [
-                    'class' => 'form-control',
                     'rows' => '5',
                     'cols' => '33',
-                ]
+                ],
+
+                'constraints' => [
+                    new NotBlank(
+                        message: 'Veuillez rédiger une description.',
+                    )
+                ],
             ])
             /*
             La date (DateTimeImmutable) sera envoyée par le contrôleur grâce au setter "setCreatedAt". Effectuer l'envoi de cette
@@ -75,26 +58,11 @@ class PostType extends AbstractType
                 // Pour ne pas re-publier l'image à chaque fois que l'on modifie un post
                 'required' => $options['is_file_required'],
 
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4'
-                ],
-
-                // Attributs du label
-                'label_attr' => [
-                    'class' => 'form-label text-white'
-                ],
-
-                // Attributs de l'input
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-
                 'constraints' => [
                     new Assert\File(
                         extensions: ['jpeg', 'png', 'jpg'],
                         extensionsMessage: 'Veuillez exporter une image.',
-                    )
+                    ),
                 ],
             ])
             ->add('category', EntityType::class, [
@@ -103,35 +71,14 @@ class PostType extends AbstractType
 
                 'label' => 'Catégorie',
 
-                'required' => true,
-
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4'
+                'constraints' => [
+                    new NotBlank(
+                        message: 'Veuillez sélectionner une catégorie.',
+                    )
                 ],
-
-                // Attributs du label
-                'label_attr' => [
-                    'class' => 'form-label text-white'
-                ],
-
-                // Attributs de l'input
-                'attr' => [
-                    'class' => 'form-control',
-                ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Publier',
-
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4 d-flex justify-content-center'
-                ],
-
-                // Attributs de l'input
-                'attr' => [
-                    'class' => 'btn align-self-start mt-3 w-50 m-auto text-white bg-dark',
-                ]
             ])
         ;
     }
