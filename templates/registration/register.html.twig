@@ -12,12 +12,49 @@
 					{{ form_start(registrationForm, { 'attr': {'class': 'w-50 d-flex flex-column justify-content-center rounded-3'} }) }}
 					<h1 class="mb-5 text-center text-white">Inscription</h1>
 
-					{{ form_row(registrationForm.username) }}
-					{{ form_row(registrationForm.email) }}
-					{{ form_row(registrationForm.plainPassword) }}
-					{{ form_row(registrationForm.agreeTerms) }}
+					{# Utiliser form_widget et customiser l'affichage des erreurs #}
+					{# START USERNAME #}
+					<div class="d-flex flex-column form-parent-row mb-4">
+						{{ form_label(registrationForm.username, null, {'label_attr': {'class': 'form-label text-white'}}) }}
 
-					{{ form_errors(registrationForm, { 'attr': {'class': 'error-msg'} }) }}
+						<div class="d-flex align-items-center text-danger list-unstyled error-message">
+							{{ form_errors(registrationForm.username) }}
+						</div>
+
+						{{ form_widget(registrationForm.username, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					{# END USERNAME #}
+
+					{# START EMAIL #}
+					<div class="d-flex flex-column form-parent-row mb-4">
+						{{ form_label(registrationForm.email, null, {'label_attr': {'class': 'form-label text-white'}}) }}
+
+						<div class="d-flex align-items-center text-danger list-unstyled error-message">
+							{{ form_errors(registrationForm.email) }}
+						</div>
+
+						{{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					{# END EMAIL #}
+
+					{# START PASSWORD #}
+					<div class="d-flex flex-column form-parent-row mb-4">
+						{{ form_label(registrationForm.plainPassword, null, {'label_attr': {'class': 'form-label text-white'}}) }}
+
+						<div class="d-flex align-items-center text-danger error-message">
+							{{ form_errors(registrationForm.plainPassword) }}
+						</div>
+
+						{{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+					</div>
+					{# END PASSWORD #}
+
+					{# START AGREE TERMS #}
+					<div>
+						{{ form_widget(registrationForm.agreeTerms) }}
+						{{ form_label(registrationForm.agreeTerms, null, {'label_attr': {'class': 'me-2 text-center text-white'}}) }}
+					</div>
+					{# END AGREE TERMS #}
 
 					<button type="submit" class="btn align-self-start mt-5 w-50 m-auto text-light bg-dark">S'inscrire</button>
 					{{ form_end(registrationForm) }}
