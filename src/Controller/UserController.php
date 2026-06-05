@@ -71,9 +71,13 @@ final class UserController extends AbstractController
         // Si le formulaire est envoyé (isSubmitted) et que ses données sont valides (isValid())
         if ($editUserForm->isSubmitted() && $editUserForm->isValid()) {
 
-            // Récupère la valeur de l'input "profile_picture_name" et la stocke dans la variable $newProfilePicture
+            $newUsername = $editUserForm->get('username')->getData();
             $newProfilePicture = $editUserForm->get('profile_picture_name')->getData();
             $newBanner = $editUserForm->get('banner_name')->getData();
+
+            if($newUsername) {
+                $user->setUsername($newUsername);
+            }
 
             if ($newProfilePicture) {
 
