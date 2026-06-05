@@ -6,17 +6,14 @@ use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\CategoryRepository;
 use App\Repository\PostRepository;
-use DateTimeImmutable;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/', name: 'post_')]
 final class PostController extends AbstractController
@@ -41,7 +38,7 @@ final class PostController extends AbstractController
 
     #[IsGranted('ROLE_USER')]
     #[Route('/post/forms/create', name: 'create')]
-    public function createNewPost(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads/images')] string $imagesDirectory): Response
+    public function createNewPost(Request $request, EntityManagerInterface $em, FileUploader $fileUploader): Response
     {
         $message = ""; // Initialisation de la variable contenant le message d'erreur pour les fichiers (FileException)
 
@@ -68,24 +65,9 @@ final class PostController extends AbstractController
 
             // Si la valeur du champ de saisie "image_name" (stockée dans la variable $image) n'est pas vide...
             if ($image) {
-                // Je récupère le nom original de l'image
-                $originalImageName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
 
-                // Puis j'utilise un slug pour créer un nom sécurisé
-                $safeFilename = $slugger->slug($originalImageName);
-
-                /* Enfin, je crée le nom définitif de l'image en utilisant la valeur de la variable $safeFileName, j'inclus
-                un identifiant unique grâce à la fonction "uniqid()", puis je précise l'extension de l'image grâce à la fonction
-                "guessExtension()" appliquée sur la variable $image.
-                */
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
-
-                try {
-                    // Envoie l'image dans le dossier adéquat
-                    $image->move($imagesDirectory, $newFilename);
-                } catch (FileException $e) {
-                    $message = $e;
-                }
+                // Traitement du fichier via le service FileUploader
+                $newFilename = $fileUploader->upload($image);
 
                 // Stocke le nom de l'image dans la BDD
                 $post->setImageName($newFilename);
@@ -117,9 +99,9 @@ final class PostController extends AbstractController
     #[IsGranted('ROLE_USER')]
     // {id} est un paramètre dynamique : il va récupérer l'identifiant associé au post à modifier pour afficher le formulaire adéquat
     #[Route('/post/forms/update/{id}', name: 'update')]
-    public function updatePost(Post $post, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, #[Autowire('%kernel.project_dir%/public/uploads/images')] string $imagesDirectory): Response
+    public function updatePost(Post $post, Request $request, EntityManagerInterface $em, FileUploader $fileUploader): Response
     {
-        $oldImage = $this->getParameter("images_directory") . '/' . $post->getImageName(); // Récupère l'ancienne image du post (l'image actuelle)
+        $oldImage = $fileUploader->getTargetDirectory() . '/' . $post->getImageName(); // Récupère l'ancienne image du post (l'image actuelle)
         $newImage = ""; // Initialisation de la variable qui va récupérer la nouvelle image (si il y en a une)
         $message = ""; // Initialisation de la variable contenant le message d'erreur pour les fichiers (FileException)
 
@@ -144,31 +126,14 @@ final class PostController extends AbstractController
             if ($newImage) {
                 unlink($oldImage);
 
-                // Je récupère le nom original de la nouvelle image
-                $originalImageName = pathinfo($newImage->getClientOriginalName(), PATHINFO_FILENAME);
-
-                // Puis j'utilise un slug pour créer un nom sécurisé
-                $safeFilename = $slugger->slug($originalImageName);
-
-                /* Enfin, je crée le nom définitif de l'image en utilisant la valeur de la variable $safeFileName, j'inclus
-                un identifiant unique grâce à la fonction "uniqid()", puis je précise l'extension de l'image grâce à la fonction
-                "guessExtension()" appliquée sur la variable $image.
-                */
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $newImage->guessExtension();
-
-                try {
-                    // Envoie l'image dans le dossier adéquat
-                    $newImage->move($imagesDirectory, $newFilename);
-                } catch (FileException $error) {
-                    $message = $error;
-                }
+                // Traitement du fichier via le service FileUploader
+                $newFilename = $fileUploader->upload($newImage);
 
                 // Stocke le nom de la nouvelle image dans la BDD
                 $post->setImageName($newFilename);
             }
 
-            $em->persist($post);
-            $em->flush(); // Exécute la requête préparée
+            $em->flush();
 
             $this->addFlash('success', 'La publication a été modifiée avec succès.');
             return $this->redirectToRoute('user_index');
