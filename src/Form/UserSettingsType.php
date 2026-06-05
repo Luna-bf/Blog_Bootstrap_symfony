@@ -22,93 +22,25 @@ class UserSettingsType extends AbstractType
                 'label' => 'Adresse mail',
 
                 'mapped' => false,
-
-                // Pour ne pas re-publier l'image à chaque fois que l'on modifie un post
-                'required' => false,
-
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4'
-                ],
-
-                // Attributs du label
-                'label_attr' => [
-                    'class' => 'form-label text-dark'
-                ],
-
-                // Attributs de l'input
-                'attr' => [
-                    'class' => 'form-control',
-                ],
             ])
             ->add('password', PasswordType::class, [
                 'label' => 'Mot de passe',
 
                 'mapped' => false,
-
-                // Pour ne pas re-publier l'image à chaque fois que l'on modifie un post
-                'required' => false,
-
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4'
-                ],
-
-                // Attributs du label
-                'label_attr' => [
-                    'class' => 'form-label text-dark'
-                ],
-
-                // Attributs de l'input
-                'attr' => [
-                    'class' => 'form-control',
-                ],
             ])
             ->add('username', TextType::class, [
                 'label' => 'Nom d\'utilisateur',
 
                 'mapped' => false,
 
-                // Pour ne pas re-publier l'image à chaque fois que l'on modifie un post
                 'required' => false,
-
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4'
-                ],
-
-                // Attributs du label
-                'label_attr' => [
-                    'class' => 'form-label text-dark'
-                ],
-
-                // Attributs de l'input
-                'attr' => [
-                    'class' => 'form-control',
-                ],
             ])
             ->add('profile_picture_name', FileType::class, [
                 'label' => 'Photo de profil',
 
                 'mapped' => false,
 
-                // Pour ne pas re-publier l'image à chaque fois que l'on modifie un post
                 'required' => false,
-
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4'
-                ],
-
-                // Attributs du label
-                'label_attr' => [
-                    'class' => 'form-label text-dark'
-                ],
-
-                // Attributs de l'input
-                'attr' => [
-                    'class' => 'form-control',
-                ],
                 
                 'constraints' => [
                     new Assert\File(
@@ -122,23 +54,7 @@ class UserSettingsType extends AbstractType
 
                 'mapped' => false,
 
-                // Pour ne pas re-publier l'image à chaque fois que l'on modifie un post
                 'required' => false,
-
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4'
-                ],
-
-                // Attributs du label
-                'label_attr' => [
-                    'class' => 'form-label text-dark'
-                ],
-
-                // Attributs de l'input
-                'attr' => [
-                    'class' => 'form-control',
-                ],
                 
                 'constraints' => [
                     new Assert\File(
@@ -149,16 +65,6 @@ class UserSettingsType extends AbstractType
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Enregistrer les modifications',
-
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4 d-flex justify-content-center'
-                ],
-
-                // Attributs de l'input
-                'attr' => [
-                    'class' => 'btn mt-3 py-2 w-50 bg-dark text-light ',
-                ]
             ])
         ;
     }
