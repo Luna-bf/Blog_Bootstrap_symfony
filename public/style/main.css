@@ -23264,7 +23264,7 @@ body {
 
 .form-div > form {
   margin: 0 auto;
-  padding: 4em;
+  padding: 2.5em 4em 4em 4em;
 }
 
 .form-div form h1 {
@@ -23289,6 +23289,11 @@ body {
   color: #eb1400;
 }
 
+.error-message ul {
+  list-style: none;
+  padding-left: 0;
+}
+
 .banner {
   min-height: 40vh;
   background-repeat: no-repeat;
@@ -23300,15 +23305,17 @@ body {
   margin-top: 9px;
 }
 
-#profile-nav li > figure {
-  width: 7% !important;
+#profile-nav li > .profile-picture {
+  width: 7%;
+  height: 13%;
   position: absolute;
-  top: 345px;
-  margin-left: 20px;
-}
-
-#profile-nav figure > img {
-  border: 6px solid #fff;
+  top: 338px;
+  margin-left: 18px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  background-size: cover;
+  background-position: center;
+  border: 3.5px solid #fff;
 }
 
 .username-profile {
@@ -23341,10 +23348,6 @@ body {
   margin-right: 7px;
 }
 
-.post-actions > a, .post-actions form > button {
-  font-size: 14.5px;
-}
-
 footer {
   width: 100%;
   padding: 25px;
@@ -23359,17 +23362,26 @@ header {
   margin-top: 3.5em;
 }
 
+.post-category-color {
+  font-size: 13px;
+}
+
 .post-image {
   background-position: center;
   background-size: cover;
 }
 
 .post-article {
-  margin-bottom: 45px;
+  margin-bottom: 30px;
 }
 
+/*
+.post-div contient la propriété "display: flex" en tant que classe Bootstrap, je lui ajoute ensuite la propriété "flex: 1"
+afin que les éléments portant cette classe (le conteneur enfant du post) prennent toute la place disponible dans leur ligne.
+Cela permet aux éléments portant cette classe de faire la même taille, sans prendre compte de leur contenu.
+*/
 .post-div {
-  height: 40vh;
+  flex: 1;
 }
 
 .post-div div strong > span {
@@ -23380,4 +23392,8 @@ header {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.post-actions > a, .post-actions form > button {
+  font-size: 14.5px;
 }/*# sourceMappingURL=main.css.map */
