@@ -16,14 +16,61 @@
 				cette donnée côté serveur est plus sécurisé car l'utilisateur n'y aura jamais accès (envoyer cette donnée via un
 				formulaire lui donnerais la possibilité de modifier une donnée sensible, ce qui n'est pas désirable).
 	            #}
-				{{ form_row(updatePostForm.title) }}
-				{{ form_row(updatePostForm.content) }}
-				{{ form_row(updatePostForm.category) }}
-				{{ form_row(updatePostForm.image_name) }}
-				
-				{{ form_errors(updatePostForm) }}
 
-				{{ form_row(updatePostForm.submit, {'label': 'Modifier'}) }}
+				{# START TITLE #}
+				<div class="d-flex flex-column form-parent-row mb-4">
+					{{ form_label(updatePostForm.title, null, {'label_attr': {'class': 'form-label text-white'}}) }}
+
+					<div class="d-flex align-items-center text-danger list-unstyled error-message">
+						{{ form_errors(updatePostForm.title) }}
+					</div>
+
+					{{ form_widget(updatePostForm.title, {'attr': {'class': 'form-control'}}) }}
+				</div>
+				{# END TITLE #}
+
+				{# START CONTENT #}
+				<div class="d-flex flex-column form-parent-row mb-4">
+					{{ form_label(updatePostForm.content, null, {'label_attr': {'class': 'form-label text-white'}}) }}
+
+					<div class="d-flex align-items-center text-danger list-unstyled error-message">
+						{{ form_errors(updatePostForm.content) }}
+					</div>
+
+					{{ form_widget(updatePostForm.content, {'attr': {'class': 'form-control'}}) }}
+				</div>
+				{# END CONTENT #}
+
+				{# START CATEGORY #}
+				<div class="d-flex flex-column form-parent-row mb-4">
+					{{ form_label(updatePostForm.category, null, {'label_attr': {'class': 'form-label text-white'}}) }}
+
+					<div class="d-flex align-items-center text-danger list-unstyled error-message">
+						{{ form_errors(updatePostForm.category) }}
+					</div>
+
+					{{ form_widget(updatePostForm.category, {'attr': {'class': 'form-control'}}) }}
+				</div>
+				{# END CATEGORY #}
+
+				{# START IMAGE #}
+				<div class="d-flex flex-column form-parent-row mb-4">
+					{{ form_label(updatePostForm.image_name, null, {'label_attr': {'class': 'form-label text-white'}}) }}
+
+					<div class="d-flex align-items-center text-danger list-unstyled error-message">
+						{{ form_errors(updatePostForm.image_name) }}
+					</div>
+
+					{{ form_widget(updatePostForm.image_name, {'attr': {'class': 'form-control'}}) }}
+				</div>
+				{# END IMAGE #}
+
+				{# START SUBMIT #}
+				<div class="d-flex flex-column form-parent-row mb-4">
+					{{ form_label(updatePostForm.submit, 'Modifier', {'label_attr': {'class': 'form-label text-white'}}) }}
+					{{ form_widget(updatePostForm.submit, {'row_attr': {'class': 'mb-4 d-flex justify-content-center'}, 'attr': {'class': 'btn align-self-start mt-3 w-50 m-auto text-white bg-dark'}}) }}
+				</div>
+				{# END SUBMIT #}
 
 				{{ form_end(updatePostForm) }}
 			</section>

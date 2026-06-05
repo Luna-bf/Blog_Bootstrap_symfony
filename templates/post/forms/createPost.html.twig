@@ -15,14 +15,57 @@
 	            La date (DateTimeImmutable) sera envoyée par le contrôleur grâce au setter "setCreatedAt". Effectuer l'envoi de
 				cette donnée côté serveur est plus sécurisé car l'utilisateur n'y aura jamais accès (envoyer cette donnée via un
 				formulaire lui donnerais la possibilité de modifier une donnée sensible, ce qui n'est pas désirable).
-	            #}
-				{{ form_row(createPostForm.title) }}
-				{{ form_row(createPostForm.content) }}
-				{{ form_row(createPostForm.category) }}
-				{{ form_row(createPostForm.image_name) }}
-				{{ form_row(createPostForm.submit) }}
+				#}
 
-				{{ form_errors(createPostForm, { 'attr': {'class': 'error-msg'} }) }}
+				{# START TITLE #}
+				<div class="d-flex flex-column form-parent-row mb-4">
+					{{ form_label(createPostForm.title, null, {'label_attr': {'class': 'form-label text-white'}}) }}
+
+					<div class="d-flex align-items-center text-danger list-unstyled error-message">
+						{{ form_errors(createPostForm.title) }}
+					</div>
+
+					{{ form_widget(createPostForm.title, {'attr': {'class': 'form-control'}}) }}
+				</div>
+				{# END TITLE #}
+
+				{# START CONTENT #}
+				<div class="d-flex flex-column form-parent-row mb-4">
+					{{ form_label(createPostForm.content, null, {'label_attr': {'class': 'form-label text-white'}}) }}
+
+					<div class="d-flex align-items-center text-danger list-unstyled error-message">
+						{{ form_errors(createPostForm.content) }}
+					</div>
+
+					{{ form_widget(createPostForm.content, {'attr': {'class': 'form-control'}}) }}
+				</div>
+				{# END CONTENT #}
+
+				{# START CATEGORY #}
+				<div class="d-flex flex-column form-parent-row mb-4">
+					{{ form_label(createPostForm.category, null, {'label_attr': {'class': 'form-label text-white'}}) }}
+
+					<div class="d-flex align-items-center text-danger list-unstyled error-message">
+						{{ form_errors(createPostForm.category) }}
+					</div>
+
+					{{ form_widget(createPostForm.category, {'attr': {'class': 'form-control'}}) }}
+				</div>
+				{# END CATEGORY #}
+
+				{# START IMAGE #}
+				<div class="d-flex flex-column form-parent-row mb-4">
+					{{ form_label(createPostForm.image_name, null, {'label_attr': {'class': 'form-label text-white'}}) }}
+
+					<div class="d-flex align-items-center text-danger list-unstyled error-message">
+						{{ form_errors(createPostForm.image_name) }}
+					</div>
+
+					{{ form_widget(createPostForm.image_name, {'attr': {'class': 'form-control'}}) }}
+				</div>
+				{# END IMAGE #}
+				
+				{{ form_row(createPostForm.submit, {'row_attr': {'class': 'mb-4 d-flex justify-content-center'}, 'attr': {'class': 'btn align-self-start mt-3 w-50 m-auto text-white bg-dark'}}) }}
 
 				{{ form_end(createPostForm) }}
 			</section>
