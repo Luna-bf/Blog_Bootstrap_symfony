@@ -9,14 +9,31 @@
 			{{ form_start(editUserForm, { 'attr': {'class': 'w-50 d-flex flex-column justify-content-center rounded-3'} }) }}
 			<h1 class="mb-5 text-center text-dark">Modifier mon compte</h1>
 
-			{{ form_row(editUserForm.username) }}
-			{{ form_row(editUserForm.profile_picture_name) }}
-			{{ form_row(editUserForm.banner_name) }}
+			{{ form_row(editUserForm.username, {'row_attr': {'class': 'd-flex flex-column form-parent-row mb-4'}, 'label_attr': {'class': 'form-label'}, 'attr': {'class': 'form-control'}}) }}
+
+			<div class="d-flex flex-column form-parent-row mb-4">
+				{{ form_label(editUserForm.profile_picture_name, null, {'label_attr': {'class': 'form-label'}}) }}
+				
+				<div class="d-flex align-items-center text-danger list-unstyled error-message">
+					{{ form_errors(editUserForm.profile_picture_name) }}
+				</div>
+
+				{{ form_widget(editUserForm.profile_picture_name, {'attr': {'class': 'form-control'}}) }}
+			</div>
+
+			<div class="d-flex flex-column form-parent-row mb-4">
+				{{ form_label(editUserForm.banner_name, null, {'label_attr': {'class': 'form-label'}}) }}
+
+				<div class="d-flex align-items-center text-danger list-unstyled error-message">
+					{{ form_errors(editUserForm.banner_name) }}
+				</div>
+
+				{{ form_widget(editUserForm.banner_name, {'attr': {'class': 'form-control'}}) }}
+			</div>
+
 			{{ form_row(editUserForm._token) }}
 
-			{{ form_row(editUserForm.submit) }}
-
-			{{ form_errors(editUserForm, { 'attr': {'class': 'error-msg'} }) }}
+			{{ form_row(editUserForm.submit, {'row_attr': {'class': 'mb-4 d-flex justify-content-center'}, 'attr': {'class': 'btn mt-3 py-2 w-50 bg-dark text-light'}}) }}
 
 			{{ form_end(editUserForm, { render_rest: false }) }}
 		</div>
@@ -24,8 +41,12 @@
 		<section class="d-flex flex-column align-items-center my-5">
 			<h2 class="mb-5">Autres actions</h2>
 			<ul class="list-unstyled d-flex flex-row">
-				<li><a href="{{ path('user_email_reset') }}">Modifier l'adresse mail</a></li>
-				<li class="ms-4"><a href="{{ path('user_password_reset') }}">Modifier le mot de passe</a></li>
+				<li>
+					<a href="{{ path('user_email_reset') }}">Modifier l'adresse mail</a>
+				</li>
+				<li class="ms-4">
+					<a href="{{ path('user_password_reset') }}">Modifier le mot de passe</a>
+				</li>
 			</ul>
 		</section>
 	</body>
