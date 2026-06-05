@@ -50,7 +50,7 @@ final class UserController extends AbstractController
     - #[CurrentUser] : est un attribut PHP qui va me permettre de récupérer toutes les informations de l'utilisateur connecté
     */
     #[Route('/settings', name: 'settings')]
-    public function settings(#[CurrentUser] User $user, Request $request, ProfilePictureUploader $profilePictureUploader, BannerUploader $bannerUploader): Response
+    public function settings(#[CurrentUser] User $user, Request $request, EntityManagerInterface $em, ProfilePictureUploader $profilePictureUploader, BannerUploader $bannerUploader): Response
     {
         /* J'ai ajouté un nouveau paramètre dans le fichier services.yaml nommé "user_images_directory", qui va contenir toutes
         les images associées à l'utilisateur */
@@ -116,6 +116,10 @@ final class UserController extends AbstractController
                     $user->setBannerName($newFilename);
                 }
             }
+
+            $em->flush();
+
+            return $this->redirectToRoute('user_index');
         }
 
         return $this->render('user/userSettings/settings.html.twig', [
