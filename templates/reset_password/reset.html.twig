@@ -1,12 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reset your password{% endblock %}
+{% block title %}Modifier le mot de passe - Blog Bootstrap
+{% endblock %}
 
 {% block body %}
-    <h1>Reset your password</h1>
+	<body class="settings-form">
+		<div class="d-flex flex-column form-div">
+			{{ form_start(resetPasswordForm, { 'attr': {'class': 'w-50 d-flex flex-column justify-content-center rounded-3'} }) }}
+			<h1 class="my-5 text-center text-dark">Modifier le mot de passe</h1>
 
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
-    {{ form_end(resetForm) }}
+			<div class="d-flex flex-column form-parent-row my-4">
+				{{ form_label(resetPasswordForm.plainPassword.first, null, {'label_attr': {'class': 'form-label'}}) }}
+				{{ form_widget(resetPasswordForm.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+			</div>
+
+			<div class="d-flex flex-column form-parent-row mb-4">
+				{{ form_label(resetPasswordForm.plainPassword.second, null, {'label_attr': {'class': 'form-label'}}) }}
+				{{ form_widget(resetPasswordForm.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+			</div>
+
+			{{ form_row(resetPasswordForm._token) }}
+
+			<div class="d-flex align-items-center text-danger list-unstyled error-message">
+				{{ form_errors(resetPasswordForm.plainPassword) }}
+			</div>
+
+			{{ form_row(resetPasswordForm.submit, {'row_attr': {'class': 'my-4 d-flex justify-content-center'}, 'attr': {'class': 'btn mt-3 py-2 w-50 bg-dark text-light'}}) }}
+
+			{{ form_end(resetPasswordForm, {'render_rest': false}) }}
+		</div>
+	</body>
+{% endblock %}
+
+{% block footer %}
+	<footer class="bg-dark text-light d-flex align-items-center justify-content-center position-absolute bottom-0">
+		<p class="m-0 text-center">Travail réalisé par
+			<a href="https://github.com/Luna-bf" target="_blank" class="text-decoration-none">Luna</a>.</p>
+	</footer>
 {% endblock %}
