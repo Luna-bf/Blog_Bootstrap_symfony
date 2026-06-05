@@ -36,7 +36,12 @@ class RegistrationFormType extends AbstractType
                 // Attributs de l'input
                 'attr' => [
                     'class' => 'form-control',
-                ]
+                ],
+                'constraints' => [
+                    new NotBlank(
+                        message: 'Veuillez définir un nom d\'utilisateur.',
+                    )
+                ],
             ])
             ->add('email', EmailType::class, [
                 // Label personnalisé
@@ -55,7 +60,12 @@ class RegistrationFormType extends AbstractType
                 // Attributs de l'input
                 'attr' => [
                     'class' => 'form-control',
-                ]
+                ],
+                'constraints' => [
+                    new NotBlank(
+                        message: 'Veuillez saisir une adresse mail.',
+                    )
+                ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
@@ -93,7 +103,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank(
-                        message: 'Veuillez saisir un mot de passe.',
+                        message: 'Veuillez définir un mot de passe.',
                     ),
                     new Length(
                         min: 6,
