@@ -23,20 +23,6 @@ class RegistrationFormType extends AbstractType
                 // Label personnalisé
                 'label' => 'Nom d\'utilisateur',
 
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4'
-                ],
-
-                // Attributs du label
-                'label_attr' => [
-                    'class' => 'form-label text-white'
-                ],
-
-                // Attributs de l'input
-                'attr' => [
-                    'class' => 'form-control',
-                ],
                 'constraints' => [
                     new NotBlank(
                         message: 'Veuillez définir un nom d\'utilisateur.',
@@ -47,20 +33,6 @@ class RegistrationFormType extends AbstractType
                 // Label personnalisé
                 'label' => 'Adresse mail',
 
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4'
-                ],
-
-                // Attributs du label
-                'label_attr' => [
-                    'class' => 'form-label text-white'
-                ],
-
-                // Attributs de l'input
-                'attr' => [
-                    'class' => 'form-control',
-                ],
                 'constraints' => [
                     new NotBlank(
                         message: 'Veuillez saisir une adresse mail.',
@@ -69,9 +41,9 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
-                'label_attr' => [
-                    'class' => 'me-2 text-center text-white'
-                ],
+                
+                'label' => 'J\'accepte les conditions d\'utilisation',
+
                 'constraints' => [
                     new IsTrue(
                         message: 'Vous devez accepter les conditions d\'utilisation.',
@@ -87,20 +59,6 @@ class RegistrationFormType extends AbstractType
                 // Label personnalisé
                 'label' => 'Mot de passe',
 
-                // Attributs de la div générée par $builder
-                'row_attr' => [
-                    'class' => 'mb-4'
-                ],
-
-                // Attributs du label
-                'label_attr' => [
-                    'class' => 'form-label text-white'
-                ],
-
-                // Attributs de l'input
-                'attr' => [
-                    'class' => 'form-control',
-                ],
                 'constraints' => [
                     new NotBlank(
                         message: 'Veuillez définir un mot de passe.',
