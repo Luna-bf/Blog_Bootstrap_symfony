@@ -32,7 +32,7 @@ final class UserController extends AbstractController
     public function index(PostRepository $repo, #[CurrentUser] User $user): Response
     {
         $user_id = $user->getId(); // Récupère l'identifiant de l'utilisateur actuellement connecté
-        $posts = $repo->findBy(['my_user' => $user_id]); // Récupère tous les posts associés à l'utilisateur connecté
+        $posts = $repo->findBy(['myUser' => $user_id]); // Récupère tous les posts associés à l'utilisateur connecté
         $message = "";
 
         if ($posts === []) {
