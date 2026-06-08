@@ -141,6 +141,19 @@ final class UserController extends AbstractController
 
         // Traitement du formulaire
         $editUserForm->handleRequest($request);
+        
+        if ($editUserForm->isSubmitted() && $editUserForm->isValid()) {
+
+            $newEmail = $editUserForm->get('email')->getData();
+            
+            $user->setEmail($newEmail);
+
+            $em->flush();
+
+            $this->addFlash('success', 'Adresse mail modifiée avec succès.');
+
+            return $this->redirectToRoute('user_settings');
+        }
 
         return $this->render('user/userSettings/emailReset.html.twig', [
             'editUserForm' => $editUserForm
