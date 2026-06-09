@@ -36,6 +36,7 @@
 			</section>
 			{# FIN SECTION #}
 
+            {# Affiche un message si aucun post n'est associé à la catégorie #}
             {% if posts|length < 1 %}
                 <div class="d-flex align-items-center justify-content-center">
                     <p class="text-center fs-5">Aucun post n'est associé à cette catégorie. <a href="{{ path('post_create') }}">Créez-en un !</a></p>
