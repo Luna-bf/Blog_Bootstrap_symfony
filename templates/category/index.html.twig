@@ -1,24 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil - Blog Bootstrap
+{% block title %}Posts de {{category.name|lower}} - Blog Bootstrap
 {% endblock %}
 
 {% block body %}
 	{% block main %}
 		{# <MAIN> #}
-		<main
-			class="container">
-			{# <NAV> (catégories) #}
-			<nav class="border-bottom">
-				{# Récupère toutes les catégories dans la BDD #}
-				<ol class="list-unstyled d-flex align-items-center justify-content-between flex-wrap my-2">
-					{% for category in categories %}
-						<li class="mx-3 my-2"><a href="{{ path('category_show', {id: category.id}) }}" class="text-decoration-none text-black">{{ category.name }}</a></li>
-					{% endfor %}
-				</ol>
-			</nav>
-			{# FIN <NAV> (catégories) #}
-
+		<main class="container">
 			{# SECTION (contient tous les posts) #}
 			<section class="row my-5 d-flex">
 				{# ARTICLE (conteneur parent de l'un des posts) #}
@@ -28,7 +16,7 @@
 						<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative post-div">
 							{# UL (contenu du post) #}
 							<ul class="col-8 p-4 d-flex flex-column position-static list-unstyled">
-								<li><strong class="d-inline-block mb-2"><span class="me-2 rounded-circle post-category-color" style="background-color: {{ post.category.color }}; color: {{ post.category.color }}; border: 2px solid {{post.category.color}};">Ok</span>{{ post.category.name }}</strong></li>
+								<li><strong class="d-inline-block mb-2"><span class="me-2 rounded-circle post-category-color" style="background-color: {{ post.category.color }}; color: {{ post.category.color }}; border: 2px solid {{ post.category.color }};">Ok</span>{{ post.category.name }}</strong></li>
 								<li><h3 class="mb-3">{{ post.title }}</h3></li>
 								<li class="mb-3 text-body-secondary">Publié le {{ post.createdAt | date("d/m/y") }}</li>
 								<li><p class="mb-auto post-content">{{ post.content }}</p></li>
