@@ -1,12 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Posts de {{category.name|lower}} - Blog Bootstrap
+{% block title %}Posts de la catégorie "{{category.name|lower}}" - Blog Bootstrap
 {% endblock %}
 
 {% block body %}
 	{% block main %}
 		{# <MAIN> #}
-		<main class="container">
+        {% if posts|length < 1 %}
+		    <main class="container d-flex justify-content-center align-items-center h-75">
+        {% else %}
+		    <main class="container">
+        {% endif %}
 			{# SECTION (contient tous les posts) #}
 			<section class="row my-5 d-flex">
 				{# ARTICLE (conteneur parent de l'un des posts) #}
@@ -31,6 +35,12 @@
 				{# FIN ARTICLE #}
 			</section>
 			{# FIN SECTION #}
+
+            {% if posts|length < 1 %}
+                <div class="d-flex align-items-center justify-content-center">
+                    <p class="text-center fs-5">Aucun post n'est associé à cette catégorie. <a href="{{ path('post_create') }}">Créez-en un !</a></p>
+                </div>
+            {% endif %}
 		</main>
 		{# FIN <MAIN> #}
 	{% endblock %}
