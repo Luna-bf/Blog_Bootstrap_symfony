@@ -10,6 +10,7 @@ use App\Service\BannerUploader;
 use App\Service\ProfilePictureUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -42,6 +43,30 @@ final class UserController extends AbstractController
         return $this->render('user/index.html.twig', [
             'posts' => $posts,
             'message' => $message,
+        ]);
+    
+    }
+
+    #[Route('/userProfile/{id}', name: 'show_profile')]
+    public function showPostProfile(User $user, Security $security)
+    {
+        $page = "";
+        $message = "";
+
+        // Récupère les posts de l'utilisateur
+        $posts = $user->getPosts();
+        $authenticatedUser = $security->getUser();
+
+        if($user === $authenticatedUser) {
+            $page = "user/index.html.twig";
+        } else {
+            $page = "post/show/showProfile.html.twig";
+        }
+
+        return $this->render("$page", [
+            'user' => $user,
+            'posts' => $posts,
+            'message' => $message
         ]);
     }
 
