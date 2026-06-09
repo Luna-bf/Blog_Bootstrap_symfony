@@ -148,7 +148,7 @@ final class PostController extends AbstractController
     #[IsGranted('ROLE_USER')]
     // {id} est un paramètre dynamique : il va récupérer l'identifiant associé au post à modifier pour afficher le formulaire adéquat
     #[Route('/post/{id}/delete', name: 'delete')]
-    public function deletePost(Post $post, Request $request, EntityManagerInterface $em): Response
+    public function deletePost(Post $post, Request $request, EntityManagerInterface $em, FileUploader $fileUploader): Response
     {
         // Récupère la valeur de l'input nommé "token" (le jeton CSRF)
         $submittedToken = $request->getPayload()->get('token');
@@ -162,7 +162,7 @@ final class PostController extends AbstractController
             // Si le post contient un nom d'image
             if ($postImage) {
                 // Je récupère son chemin d'accès (nom du dossier et de l'image associée au post) et le stocke dans la variable $image
-                $image = $this->getParameter("images_directory") . '/' . $post->getImageName();
+                $image = $fileUploader->getTargetDirectory() . '/' . $post->getImageName();
 
                 // Si le chemin de l'image récupérée correspond à l'une des images du dossier
                 if (file_exists($image)) {
