@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de {{ user.username }} - Blog Bootstrap
+{% endblock %}
+
+{#
+Ajouter une condition pour les boutons d'actions :
+
+Si l'utilisateur connecté passe par la page "showProfile" pour accéder au profil et que son identifiant correspond à la page
+de profil sur laquelle il atteri, j'affiche les boutons d'actions, sinon je ne les affiche pas.
+#}
+
+{% block body %}	
+	{# Début MAIN #}
+	{# La classe container permet de créer un conteneur responsive #}
+	<main class="container m-auto">
+		<div class="banner" style="background-image:url('{{ asset('uploads/user_images/banners/' ~ user.bannerName) }}')"></div>
+		<div class="d-flex flex-row justify-content-between mt-2" id="profile-div">
+			<ul class="list-unstyled d-flex flex-row justify-content-center justify-content-between" id="profile-nav">
+				<li>
+					{# Voir si je peux définir plusieurs dossier d'upload d'image et si je peux mettre une condition, exemple :
+					si le fichier provient d'une publication portant la catégorie "World", je vais stocker son image dans un
+					dossier nommé "world", si c'est une photo de profil, je vais le stocker dans un dossier "profilePictures"... #}
+					{# <figure><img src="/assets/imgs/paysage.png" alt="Photo de profil" class="w-100 rounded-circle"></figure> #}
+					<div class="rounded-circle profile-picture" style="background-image:url('{{ asset('uploads/user_images/profile_pictures/' ~ user.profilePictureName) }}')"></div>
+				</li>
+				<li class="fs-4 align-items-center username-profile">{{ user.username }}</li>
+			</ul>
+			
+			{% if app.user is same as(user) %}
+				<div class="d-flex flex-row align-items-center" id="settings-link">
+					<a class="btn btn-sm btn-outline-secondary" href="{{ path('user_settings') }}">
+						<i class="fa-solid fa-gear"></i>Paramètres du profil</a>
+					<a href="{{ path('app_logout') }}" class="ms-3 btn btn-outline-danger text-decoration-none" id="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Déconnexion</a>
+				</div>
+			{% else %}
+				<li class="btn btn-sm btn-outline-secondary my-0 subscribe-btn">S'abonner</li>
+			{% endif %}
+		</div>
+		{# SECTION (contient tous les posts) #}
+		{#
+		La classe .row crée une ligne dans un système de grille (Grid)
+		
+		- Les éléments portant la classe .col sont des cases dans une ligne
+		- La classe .row ajoute également les propriétés "display: flex" et "flex-wrap: wrap" afin que les enfants soient
+		alignés horizontalement et passent à la ligne si besoin, ainsi que des espacements (gutter) pour que les colonnes (.col)
+		soient espacées proprement.
+
+		Attention : un conteneur portant la classe ".row" doit contenir uniquement des éléments portant la classe ".col"
+ 		#}
+		<section class="row justify-content-center mb-2">
+			<h1 class="mt-5">Publications</h1>
+
+			{% for post in posts %}
+				{# ARTICLE (conteneur parent de l'un des posts) #}
+				<article class="col-md-6 d-flex post-article mt-5" id="{{ post.id }}">
+					{# DIV (conteneur enfant du post) #}
+					<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative post-div">
+						{# DIV (contenu du post) #}
+						<div class="col-8 p-4 d-flex flex-column position-static">
+							<strong class="d-inline-block mb-2">
+								<span class="me-1 rounded-circle" style="background-color: {{ post.category.color }}; color: {{ post.category.color }}; border: 2px solid {{post.category.color}};">Ok</span>
+								{{ post.category.name }}</strong>
+							<h3 class="mb-3">{{ post.title }}</h3>
+							<div class="mb-3 text-body-secondary">{{ post.createdAt | date("d/m/y") }}</div>
+							<p class="mb-auto post-content">{{ post.content }}</p>
+							<a href="{{ path('post_show', {id: post.id}) }}" class="mt-3">Lire la suite</a>
+						</div>
+						<aside class="col-4 d-lg-flex d-inline-block post-image" style="background-image:url('{{ asset('uploads/images/' ~ post.imageName) }}')" alt="{{ post.imageName }}"></aside>
+						{# FIN DIV (contenu du post) #}
+					</div>
+					{# FIN DIV (conteneur enfant du post) #}
+				</article>
+			{% endfor %}
+		</section>
+		{# FIN SECTION #}
+	</main>
+	{# FIN MAIN #}
+{% endblock %}
