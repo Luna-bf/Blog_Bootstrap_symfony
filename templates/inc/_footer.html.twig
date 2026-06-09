@@ -1,6 +1,13 @@
 {% block footer %}
-	<footer class="bg-dark text-light d-flex align-items-center justify-content-center">
-		<p class="m-0 text-center">Travail réalisé par
-			<a href="https://github.com/Luna-bf" target="_blank" class="text-decoration-none">Luna</a>.</p>
-	</footer>
+	{% if posts|length < 3 %}
+		<footer class="bg-dark text-light fixed-bottom">
+			<p class="m-0 text-center">Travail réalisé par
+				<a href="https://github.com/Luna-bf" target="_blank" class="text-decoration-none">Luna</a>.</p>
+		</footer>
+	{% else %}
+		<footer class="bg-dark text-light d-flex align-items-center justify-content-center">
+			<p class="m-0 text-center">Travail réalisé par
+				<a href="https://github.com/Luna-bf" target="_blank" class="text-decoration-none">Luna</a>.</p>
+		</footer>
+	{% endif %}
 {% endblock %}
